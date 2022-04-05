@@ -26,7 +26,7 @@ public class ApiTest {
 
     public static void main(String[] args) throws IOException {
         String proxyHost = "127.0.0.1";
-        String proxyPort = "7890";
+        String proxyPort = "7890"  ;
 // 对http开启代理
         System.setProperty("http.proxyHost", proxyHost);
         System.setProperty("http.proxyPort", proxyPort);
