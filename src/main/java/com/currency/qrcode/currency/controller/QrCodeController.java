@@ -2,6 +2,7 @@ package com.currency.qrcode.currency.controller;
 
 import com.currency.qrcode.currency.model.ApiResult;
 import com.currency.qrcode.currency.model.CurrencyEnum;
+import com.currency.qrcode.currency.service.CoinmarketCapService;
 import com.currency.qrcode.currency.service.QrCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
@@ -23,6 +23,9 @@ public class QrCodeController {
 
     @Autowired
     QrCodeService qrCodeService;
+
+    @Autowired
+    CoinmarketCapService coinmarketCapService;
 
     @ApiOperation(
             value = "二维码生成接口",
@@ -44,6 +47,17 @@ public class QrCodeController {
         qrCodeService.qrCodeGenerate(currencyEnum, money, requireAddress, response);
 
         return null;
+    }
+
+
+    @ApiOperation(
+            value = "获取BTC的价格",
+            notes = "宽度与高度只能是整数"
+    )
+    @GetMapping(value = "/BTC/price")
+    public ApiResult getBTCPrice(@ApiParam("二维码宽度")
+                                 @RequestParam String path) {
+        return ApiResult.ok(coinmarketCapService.getLatestPrice(path));
     }
 
     @ApiOperation(
