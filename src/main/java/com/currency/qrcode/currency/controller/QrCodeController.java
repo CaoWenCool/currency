@@ -62,8 +62,17 @@ public class QrCodeController {
                                  @ApiParam("symbol")
                                  @RequestParam(required = false) String symbol,
                                  @ApiParam("slug")
-                                 @RequestParam(required = false) String slug) throws URISyntaxException {
-        return ApiResult.ok(coinmarketCapService.getLatestPrice(id, symbol, slug));
+                                 @RequestParam(required = false) String slug,
+                                 @ApiParam("convert")
+                                 @RequestParam(required = false) String convert,
+                                 @ApiParam("convertId")
+                                 @RequestParam(required = false) String convertId,
+                                 @ApiParam("aux")
+                                 @RequestParam(required = false) String aux,
+                                 @ApiParam("skipInvalid")
+                                 @RequestParam(required = false) Boolean skipInvalid) throws URISyntaxException {
+        return ApiResult.ok(coinmarketCapService.getLatestPrice(id, symbol, slug, convert, convertId, aux,
+                skipInvalid));
     }
 
 
