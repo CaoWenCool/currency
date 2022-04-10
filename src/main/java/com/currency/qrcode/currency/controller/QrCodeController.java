@@ -58,11 +58,11 @@ public class QrCodeController {
     )
     @GetMapping(value = "/BTC/price")
     public ApiResult getBTCPrice(@ApiParam("id")
-                                 @RequestParam String id,
+                                 @RequestParam(required = false) String id,
                                  @ApiParam("symbol")
-                                 @RequestParam String symbol,
+                                 @RequestParam(required = false) String symbol,
                                  @ApiParam("slug")
-                                 @RequestParam String slug) throws URISyntaxException {
+                                 @RequestParam(required = false) String slug) throws URISyntaxException {
         return ApiResult.ok(coinmarketCapService.getLatestPrice(id, symbol, slug));
     }
 

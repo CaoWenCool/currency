@@ -108,13 +108,13 @@ public class CoinmarketCapService {
     }
 
     public String getLatestPrice(String id, String symbol, String slug) throws URISyntaxException {
-        URIBuilder query = new URIBuilder(COINMARKETCAP_LISTING_LATEST_URL);
+        URIBuilder query = new URIBuilder(COINMARKETCAP_LATEST_PRICE_URL);
         query.setParameter("id", id);
         query.setParameter("symbol", symbol);
         query.setParameter("slug", slug);
-        String result = null;
         try {
-            result = makeAPICall(query);
+            String result = makeAPICall(query);
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error: cannont access content - " + e.toString());
@@ -122,7 +122,7 @@ public class CoinmarketCapService {
             e.printStackTrace();
             System.out.println("Error: Invalid URL " + e.toString());
         }
-        return result;
+        return null;
     }
 
     public String makeAPICall(URIBuilder query)
