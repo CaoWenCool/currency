@@ -67,8 +67,8 @@ public class QrCodeController {
             value = "请求价格列表地址",
             notes = "请求价格列表地址"
     )
-    @GetMapping(value = "/listing/latest")
-    public ApiResult getLatestPriceList(@ApiParam("二维码宽度")
+    @PostMapping(value = "/listing/latest")
+    public ApiResult getLatestPriceList(@ApiParam("请求价格列表")
                                         @RequestBody ListingLatestRequest latestRequest) throws URISyntaxException {
         return ApiResult.ok(coinmarketCapService.getListingLatest(latestRequest));
     }
