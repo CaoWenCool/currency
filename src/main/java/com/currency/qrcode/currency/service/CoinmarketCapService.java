@@ -2,6 +2,7 @@ package com.currency.qrcode.currency.service;
 
 
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
@@ -32,25 +33,64 @@ public class CoinmarketCapService {
 
     public String getListingLatest(ListingLatestRequest request) {
         List<NameValuePair> paratmers = new ArrayList<>();
-        paratmers.add(new BasicNameValuePair("start", request.getStart().toString()));
-        paratmers.add(new BasicNameValuePair("limit", request.getLimit().toString()));
-        paratmers.add(new BasicNameValuePair("price_min", request.getPriceMin().toString()));
-        paratmers.add(new BasicNameValuePair("price_max", request.getPriceMax().toString()));
-        paratmers.add(new BasicNameValuePair("market_cap_min", request.getMarketCapMin().toString()));
-        paratmers.add(new BasicNameValuePair("market_cap_max", request.getMarketCapMax().toString()));
-        paratmers.add(new BasicNameValuePair("volume_24h_min", request.getVolumn24hMin().toString()));
-        paratmers.add(new BasicNameValuePair("volume_24h_max", request.getVolumn24hMax().toString()));
-        paratmers.add(new BasicNameValuePair("circulating_supply_min", request.getCirculatingSupplyMin().toString()));
-        paratmers.add(new BasicNameValuePair("circulating_supply_max", request.getCirculatingSupplyMax().toString()));
-        paratmers.add(new BasicNameValuePair("percent_change_24h_min", request.getPercentChange24hMin().toString()));
-        paratmers.add(new BasicNameValuePair("percent_change_24h_max", request.getPercentChange24hMax().toString()));
-        paratmers.add(new BasicNameValuePair("convert", request.getConvert().toString()));
-        paratmers.add(new BasicNameValuePair("convert_id", request.getConvertId()));
-        paratmers.add(new BasicNameValuePair("sort", request.getSort()));
-        paratmers.add(new BasicNameValuePair("sort_dir", request.getSortDir()));
-        paratmers.add(new BasicNameValuePair("cryptocurrency_type", request.getCryptocurrencyType()));
-        paratmers.add(new BasicNameValuePair("tag", request.getTag()));
-        paratmers.add(new BasicNameValuePair("aux", request.getAux()));
+        if (null != request.getStart()) {
+            paratmers.add(new BasicNameValuePair("start", request.getStart().toString()));
+        }
+        if (null != request.getLimit()) {
+            paratmers.add(new BasicNameValuePair("limit", request.getLimit().toString()));
+        }
+        if (null != request.getPriceMin()) {
+            paratmers.add(new BasicNameValuePair("price_min", request.getPriceMin().toString()));
+        }
+        if (null != request.getPriceMax()) {
+            paratmers.add(new BasicNameValuePair("price_max", request.getPriceMax().toString()));
+        }
+        if (null != request.getMarketCapMin()) {
+            paratmers.add(new BasicNameValuePair("market_cap_min", request.getMarketCapMin().toString()));
+        }
+        if (null != request.getMarketCapMax()) {
+            paratmers.add(new BasicNameValuePair("market_cap_max", request.getMarketCapMax().toString()));
+        }
+        if (null != request.getVolumn24hMin()) {
+            paratmers.add(new BasicNameValuePair("volume_24h_min", request.getVolumn24hMin().toString()));
+        }
+        if (null != request.getVolumn24hMax()) {
+            paratmers.add(new BasicNameValuePair("volume_24h_max", request.getVolumn24hMax().toString()));
+        }
+        if (null != request.getCirculatingSupplyMin()) {
+            paratmers.add(new BasicNameValuePair("circulating_supply_min", request.getCirculatingSupplyMin().toString()));
+        }
+        if (null != request.getCirculatingSupplyMax()) {
+            paratmers.add(new BasicNameValuePair("circulating_supply_max", request.getCirculatingSupplyMax().toString()));
+        }
+        if (null != request.getPercentChange24hMin()) {
+            paratmers.add(new BasicNameValuePair("percent_change_24h_min", request.getPercentChange24hMin().toString()));
+        }
+        if (null != request.getPercentChange24hMax()) {
+            paratmers.add(new BasicNameValuePair("percent_change_24h_max", request.getPercentChange24hMax().toString()));
+        }
+        if (null != request.getConvert()) {
+            paratmers.add(new BasicNameValuePair("convert", request.getConvert().toString()));
+        }
+        if (null != request.getConvertId()) {
+            paratmers.add(new BasicNameValuePair("convert_id", request.getConvertId()));
+        }
+        if (null != request.getSort()) {
+            paratmers.add(new BasicNameValuePair("sort", request.getSort()));
+        }
+        if (null != request.getSortDir()) {
+            paratmers.add(new BasicNameValuePair("sort_dir", request.getSortDir()));
+        }
+        if (null != request.getCryptocurrencyType()) {
+            paratmers.add(new BasicNameValuePair("cryptocurrency_type", request.getCryptocurrencyType()));
+        }
+        if (null != request.getTag()) {
+            paratmers.add(new BasicNameValuePair("tag", request.getTag()));
+        }
+        if (null != request.getAux()) {
+            paratmers.add(new BasicNameValuePair("aux", request.getAux()));
+        }
+
         try {
             String result = makeAPICall(COINMARKETCAP_LISTING_LATEST_URL, paratmers);
             return result;
