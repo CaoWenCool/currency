@@ -129,6 +129,7 @@ public class CoinmarketCapService {
             query.setParameter("skip_invalid", skipInvalid.toString());
         }
         try {
+            logger.info("request info:" + query.getQueryParams().toString());
             String result = makeAPICall(query);
             return result;
         } catch (IOException e) {
