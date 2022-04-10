@@ -62,16 +62,14 @@ public class QrCodeController {
     }
 
 
-
     @ApiOperation(
             value = "请求地址列表",
             notes = "请求地址列表"
     )
     @GetMapping(value = "/listing/latest")
     public ApiResult getLatestPriceList(@ApiParam("二维码宽度")
-                                 @RequestParam ListingLatestRequest latestRequest) {
-
-        return ApiResult.ok(coinmarketCapService.getLatestPrice(path));
+                                        @RequestParam ListingLatestRequest latestRequest) {
+        return ApiResult.ok(coinmarketCapService.getListingLatest(latestRequest));
     }
 
 
