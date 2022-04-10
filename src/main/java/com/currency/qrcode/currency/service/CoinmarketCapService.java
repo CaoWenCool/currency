@@ -29,7 +29,7 @@ public class CoinmarketCapService {
     @Value("${coinmarketcap.key:c27e5dce-7702-42b8-9f18-908234ee54c3}")
     public String apiKey;
 
-    private static final String COINMARKETCAP_URL = "https://pro-api.coinmarketcap.com/v1/";
+    private static final String COINMARKETCAP_LATEST_PRICE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
     private static final String COINMARKETCAP_LISTING_LATEST_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
 
 
@@ -107,17 +107,14 @@ public class CoinmarketCapService {
         return null;
     }
 
-    public String getLatestPrice(String path) {
-        String uri = COINMARKETCAP_URL + path;
-        List<NameValuePair> paratmers = new ArrayList<NameValuePair>();
-        paratmers.add(new BasicNameValuePair("id", "1"));
-        paratmers.add(new BasicNameValuePair("slug", "bitcoin"));
-        paratmers.add(new BasicNameValuePair("symbol", "BTC"));
-        paratmers.add(new BasicNameValuePair("CMC_PRO_API_KEY", apiKey));
-
+    public String getLatestPrice(String id, String symbol, String slug) throws URISyntaxException {
+        URIBuilder query = new URIBuilder(COINMARKETCAP_LISTING_LATEST_URL);
+        query.setParameter("id", id);
+        query.setParameter("symbol", symbol);
+        query.setParameter("slug", slug);
         String result = null;
         try {
-            result = makeAPICall(uri, paratmers);
+            result = makeAPICall(query);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error: cannont access content - " + e.toString());
@@ -131,36 +128,6 @@ public class CoinmarketCapService {
     public String makeAPICall(URIBuilder query)
             throws URISyntaxException, IOException {
         String response_content = "";
-
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpGet request = new HttpGet(query.build());
-
-        request.setHeader(HttpHeaders.ACCEPT, "application/json");
-        request.addHeader("X-CMC_PRO_API_KEY", apiKey);
-
-        CloseableHttpResponse response = client.execute(request);
-
-        try {
-            System.out.println(response.getStatusLine());
-            HttpEntity entity = response.getEntity();
-            response_content = EntityUtils.toString(entity);
-            EntityUtils.consume(entity);
-        } finally {
-            response.close();
-            client.close();
-        }
-
-        return response_content;
-    }
-
-    public String makeAPICall(String uri, List<NameValuePair> parameters)
-            throws URISyntaxException, IOException {
-        String response_content = "";
-
-        URIBuilder query = new URIBuilder(uri);
-        for (NameValuePair nameValuePair : parameters) {
-            query.setParameter(nameValuePair.getName(), nameValuePair.getValue());
-        }
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet request = new HttpGet(query.build());

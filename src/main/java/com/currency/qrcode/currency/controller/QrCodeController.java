@@ -29,27 +29,27 @@ public class QrCodeController {
     @Autowired
     CoinmarketCapService coinmarketCapService;
 
-    @ApiOperation(
-            value = "二维码生成接口",
-            notes = "生成不同加密数字货币的二维码"
-    )
-    @GetMapping(value = "/qrCode")
-    public ApiResult generatorQrCode(
-            @ApiParam("币种")
-            @RequestParam CurrencyEnum currencyEnum,
-
-            @ApiParam("金额")
-            @RequestParam
-                    Double money,
-
-            @ApiParam("接收地址")
-            @RequestParam
-                    String requireAddress,
-            HttpServletResponse response) throws Exception {
-        qrCodeService.qrCodeGenerate(currencyEnum, money, requireAddress, response);
-
-        return null;
-    }
+//    @ApiOperation(
+//            value = "二维码生成接口",
+//            notes = "生成不同加密数字货币的二维码"
+//    )
+//    @GetMapping(value = "/qrCode")
+//    public ApiResult generatorQrCode(
+//            @ApiParam("币种")
+//            @RequestParam CurrencyEnum currencyEnum,
+//
+//            @ApiParam("金额")
+//            @RequestParam
+//                    Double money,
+//
+//            @ApiParam("接收地址")
+//            @RequestParam
+//                    String requireAddress,
+//            HttpServletResponse response) throws Exception {
+//        qrCodeService.qrCodeGenerate(currencyEnum, money, requireAddress, response);
+//
+//        return null;
+//    }
 
 
     @ApiOperation(
@@ -57,9 +57,13 @@ public class QrCodeController {
             notes = "请求BTC的价格"
     )
     @GetMapping(value = "/BTC/price")
-    public ApiResult getBTCPrice(@ApiParam("请求地址")
-                                 @RequestParam String path) {
-        return ApiResult.ok(coinmarketCapService.getLatestPrice(path));
+    public ApiResult getBTCPrice(@ApiParam("id")
+                                 @RequestParam String id,
+                                 @ApiParam("symbol")
+                                 @RequestParam String symbol,
+                                 @ApiParam("slug")
+                                 @RequestParam String slug) throws URISyntaxException {
+        return ApiResult.ok(coinmarketCapService.getLatestPrice(id, symbol, slug));
     }
 
 
@@ -74,80 +78,80 @@ public class QrCodeController {
     }
 
 
-    @ApiOperation(
-            value = "设置二维码的大小",
-            notes = "宽度与高度只能是整数"
-    )
-    @PostMapping(value = "/setCodeSize")
-    public ApiResult setCodeSize(
-            @ApiParam("二维码宽度")
-            @RequestParam Integer width,
+//    @ApiOperation(
+//            value = "设置二维码的大小",
+//            notes = "宽度与高度只能是整数"
+//    )
+//    @PostMapping(value = "/setCodeSize")
+//    public ApiResult setCodeSize(
+//            @ApiParam("二维码宽度")
+//            @RequestParam Integer width,
+//
+//            @ApiParam("二维码高度")
+//            @RequestParam Integer height) {
+//
+//        qrCodeService.setCodeSize(width, height);
+//        return ApiResult.ok();
+//    }
 
-            @ApiParam("二维码高度")
-            @RequestParam Integer height) {
+//    @ApiOperation(
+//            value = "设置应用的授权码",
+//            notes = "阿里云的应用授权码设置"
+//    )
+//    @PostMapping(value = "/setAppCode")
+//    public ApiResult setAppCode(
+//            @ApiParam("设置应用的授权码")
+//            @RequestParam String appCope) {
+//        qrCodeService.setAppCode(appCope);
+//        return ApiResult.ok();
+//    }
 
-        qrCodeService.setCodeSize(width, height);
-        return ApiResult.ok();
-    }
-
-    @ApiOperation(
-            value = "设置应用的授权码",
-            notes = "阿里云的应用授权码设置"
-    )
-    @PostMapping(value = "/setAppCode")
-    public ApiResult setAppCode(
-            @ApiParam("设置应用的授权码")
-            @RequestParam String appCope) {
-        qrCodeService.setAppCode(appCope);
-        return ApiResult.ok();
-    }
-
-    @ApiOperation(
-            value = "下载Apk",
-            notes = "下载Apk"
-    )
-    @GetMapping(value = "/download")
-    public void download(HttpServletResponse response) {
-        String fileName = "nuva.apk";
-        URL url = this.getClass().getClassLoader().getResource("file/nuva.apk");
-        File file = new File(url.getFile());
-        if (file.exists()) {
-            response.setContentType("application/force-download");
-            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
-            byte[] buffer = new byte[1024];
-            FileInputStream fis = null;
-            BufferedInputStream bis = null;
-            try {
-                fis = new FileInputStream(file);
-                bis = new BufferedInputStream(fis);
-                OutputStream os = response.getOutputStream();
-                int i = bis.read(buffer);
-                while (i != -1) {
-                    os.write(buffer, 0, i);
-                    i = bis.read(buffer);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (bis != null) {
-                    try {
-                        bis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-        }
-    }
+//    @ApiOperation(
+//            value = "下载Apk",
+//            notes = "下载Apk"
+//    )
+//    @GetMapping(value = "/download")
+//    public void download(HttpServletResponse response) {
+//        String fileName = "nuva.apk";
+//        URL url = this.getClass().getClassLoader().getResource("file/nuva.apk");
+//        File file = new File(url.getFile());
+//        if (file.exists()) {
+//            response.setContentType("application/force-download");
+//            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
+//            byte[] buffer = new byte[1024];
+//            FileInputStream fis = null;
+//            BufferedInputStream bis = null;
+//            try {
+//                fis = new FileInputStream(file);
+//                bis = new BufferedInputStream(fis);
+//                OutputStream os = response.getOutputStream();
+//                int i = bis.read(buffer);
+//                while (i != -1) {
+//                    os.write(buffer, 0, i);
+//                    i = bis.read(buffer);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (bis != null) {
+//                    try {
+//                        bis.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                if (fis != null) {
+//                    try {
+//                        fis.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//    }
 
 
 }
