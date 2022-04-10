@@ -56,6 +56,26 @@ public class QrCodeController {
             value = "请求BTC的价格",
             notes = "请求BTC的价格"
     )
+    @GetMapping(value = "/coin/info")
+    public ApiResult getCoinInfo(
+            @ApiParam("id")
+            @RequestParam(required = false) String id,
+            @ApiParam("slug")
+            @RequestParam(required = false) String slug,
+            @ApiParam("symbol")
+            @RequestParam(required = false) String symbol,
+            @ApiParam("address")
+            @RequestParam(required = false) String address,
+            @ApiParam("aux")
+            @RequestParam(required = false) String aux) throws URISyntaxException {
+
+        return ApiResult.ok(coinmarketCapService.getCoinInfo(id,slug,symbol,address,aux));
+    }
+
+    @ApiOperation(
+            value = "请求BTC的价格",
+            notes = "请求BTC的价格"
+    )
     @GetMapping(value = "/BTC/price")
     public ApiResult getBTCPrice(@ApiParam("id")
                                  @RequestParam(required = false) String id,

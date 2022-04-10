@@ -2,6 +2,7 @@ package com.currency.qrcode.currency.service;
 
 
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -27,7 +28,39 @@ public class CoinmarketCapService {
 
     private static final String COINMARKETCAP_LATEST_PRICE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
     private static final String COINMARKETCAP_LISTING_LATEST_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+    private static final String COINMARKETCAP_INFO_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info";
 
+    public String getCoinInfo(String id,String slug,String symbol,String address,String aux) throws URISyntaxException {
+        URIBuilder query = new URIBuilder(COINMARKETCAP_INFO_URL);
+        if(StringUtils.isNotBlank(id)){
+            query.setParameter("id",id);
+        }
+        if(StringUtils.isNotBlank(slug)){
+            query.setParameter("slug",slug);
+        }
+        if(StringUtils.isNotBlank(symbol)){
+            query.setParameter("symbol",symbol);
+        }
+        if(StringUtils.isNotBlank(address)){
+            query.setParameter("address",address);
+        }
+        if(StringUtils.isNotBlank(aux)){
+            query.setParameter("aux",aux);
+        }
+
+        try {
+            logger.info("request info:" + query.getQueryParams().toString());
+            String result = makeAPICall(query);
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: cannont access content - " + e.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            System.out.println("Error: Invalid URL " + e.toString());
+        }
+        return null;
+    }
 
     public String getListingLatest(ListingLatestRequest request) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_LISTING_LATEST_URL);
