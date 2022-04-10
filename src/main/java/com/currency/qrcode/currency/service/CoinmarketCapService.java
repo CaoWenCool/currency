@@ -4,13 +4,11 @@ package com.currency.qrcode.currency.service;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CoinmarketCapService {
@@ -108,7 +104,7 @@ public class CoinmarketCapService {
     }
 
     public String getLatestPrice(String id, String symbol, String slug, String convert, String convertId, String aux,
-                                 Boolean skipInvalid) throws URISyntaxException {
+                                 Boolean skipInvalid,Integer elapsed) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_LATEST_PRICE_URL);
         if (null != id) {
             query.setParameter("id", id);
@@ -127,6 +123,9 @@ public class CoinmarketCapService {
         }
         if (null != skipInvalid) {
             query.setParameter("skip_invalid", skipInvalid.toString());
+        }
+        if (null != elapsed){
+            query.setParameter("elapsed",elapsed.toString());
         }
         try {
             logger.info("request info:" + query.getQueryParams().toString());
