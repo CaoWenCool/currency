@@ -150,6 +150,7 @@ public class CoinmarketCapService {
         HttpGet request = new HttpGet(query.build());
 
         request.setHeader(HttpHeaders.ACCEPT, "application/json");
+        request.setHeader(HttpHeaders.ACCEPT_ENCODING, "deflate,gzip");
         request.addHeader("X-CMC_PRO_API_KEY", apiKey);
 
         CloseableHttpResponse response = client.execute(request);
