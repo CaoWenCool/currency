@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 @Validated
@@ -68,7 +69,7 @@ public class QrCodeController {
     )
     @GetMapping(value = "/listing/latest")
     public ApiResult getLatestPriceList(@ApiParam("二维码宽度")
-                                        @RequestBody ListingLatestRequest latestRequest) {
+                                        @RequestBody ListingLatestRequest latestRequest) throws URISyntaxException {
         return ApiResult.ok(coinmarketCapService.getListingLatest(latestRequest));
     }
 

@@ -2,7 +2,6 @@ package com.currency.qrcode.currency.service;
 
 
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
@@ -13,6 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Service
 public class CoinmarketCapService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${coinmarketcap.key:c27e5dce-7702-42b8-9f18-908234ee54c3}")
     public String apiKey;
@@ -31,68 +33,69 @@ public class CoinmarketCapService {
     private static final String COINMARKETCAP_LISTING_LATEST_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
 
 
-    public String getListingLatest(ListingLatestRequest request) {
-        List<NameValuePair> paratmers = new ArrayList<>();
+    public String getListingLatest(ListingLatestRequest request) throws URISyntaxException {
+        URIBuilder query = new URIBuilder(COINMARKETCAP_LISTING_LATEST_URL);
         if (null != request.getStart()) {
-            paratmers.add(new BasicNameValuePair("start", request.getStart().toString()));
+            query.setParameter("start", request.getStart().toString());
         }
         if (null != request.getLimit()) {
-            paratmers.add(new BasicNameValuePair("limit", request.getLimit().toString()));
+            query.setParameter("limit", request.getLimit().toString());
         }
         if (null != request.getPriceMin()) {
-            paratmers.add(new BasicNameValuePair("price_min", request.getPriceMin().toString()));
+            query.setParameter("price_min", request.getPriceMin().toString());
         }
         if (null != request.getPriceMax()) {
-            paratmers.add(new BasicNameValuePair("price_max", request.getPriceMax().toString()));
+            query.setParameter("price_max", request.getPriceMax().toString());
         }
         if (null != request.getMarketCapMin()) {
-            paratmers.add(new BasicNameValuePair("market_cap_min", request.getMarketCapMin().toString()));
+            query.setParameter("market_cap_min", request.getMarketCapMin().toString());
         }
         if (null != request.getMarketCapMax()) {
-            paratmers.add(new BasicNameValuePair("market_cap_max", request.getMarketCapMax().toString()));
+            query.setParameter("market_cap_max", request.getMarketCapMax().toString());
         }
         if (null != request.getVolumn24hMin()) {
-            paratmers.add(new BasicNameValuePair("volume_24h_min", request.getVolumn24hMin().toString()));
+            query.setParameter("volume_24h_min", request.getVolumn24hMin().toString());
         }
         if (null != request.getVolumn24hMax()) {
-            paratmers.add(new BasicNameValuePair("volume_24h_max", request.getVolumn24hMax().toString()));
+            query.setParameter("volume_24h_max", request.getVolumn24hMax().toString());
         }
         if (null != request.getCirculatingSupplyMin()) {
-            paratmers.add(new BasicNameValuePair("circulating_supply_min", request.getCirculatingSupplyMin().toString()));
+            query.setParameter("circulating_supply_min", request.getCirculatingSupplyMin().toString());
         }
         if (null != request.getCirculatingSupplyMax()) {
-            paratmers.add(new BasicNameValuePair("circulating_supply_max", request.getCirculatingSupplyMax().toString()));
+            query.setParameter("circulating_supply_max", request.getCirculatingSupplyMax().toString());
         }
         if (null != request.getPercentChange24hMin()) {
-            paratmers.add(new BasicNameValuePair("percent_change_24h_min", request.getPercentChange24hMin().toString()));
+            query.setParameter("percent_change_24h_min", request.getPercentChange24hMin().toString());
         }
         if (null != request.getPercentChange24hMax()) {
-            paratmers.add(new BasicNameValuePair("percent_change_24h_max", request.getPercentChange24hMax().toString()));
+            query.setParameter("percent_change_24h_max", request.getPercentChange24hMax().toString());
         }
         if (null != request.getConvert()) {
-            paratmers.add(new BasicNameValuePair("convert", request.getConvert().toString()));
+            query.setParameter("convert", request.getConvert().toString());
         }
         if (null != request.getConvertId()) {
-            paratmers.add(new BasicNameValuePair("convert_id", request.getConvertId()));
+            query.setParameter("convert_id", request.getConvertId());
         }
         if (null != request.getSort()) {
-            paratmers.add(new BasicNameValuePair("sort", request.getSort()));
+            query.setParameter("sort", request.getSort());
         }
         if (null != request.getSortDir()) {
-            paratmers.add(new BasicNameValuePair("sort_dir", request.getSortDir()));
+            query.setParameter("sort_dir", request.getSortDir());
         }
         if (null != request.getCryptocurrencyType()) {
-            paratmers.add(new BasicNameValuePair("cryptocurrency_type", request.getCryptocurrencyType()));
+            query.setParameter("cryptocurrency_type", request.getCryptocurrencyType());
         }
         if (null != request.getTag()) {
-            paratmers.add(new BasicNameValuePair("tag", request.getTag()));
+            query.setParameter("tag", request.getTag());
         }
         if (null != request.getAux()) {
-            paratmers.add(new BasicNameValuePair("aux", request.getAux()));
+            query.setParameter("aux", request.getAux());
         }
 
         try {
-            String result = makeAPICall(COINMARKETCAP_LISTING_LATEST_URL, paratmers);
+            logger.info("request info:" + query.getQueryParams().toString());
+            String result = makeAPICall(query);
             return result;
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,6 +126,31 @@ public class CoinmarketCapService {
             System.out.println("Error: Invalid URL " + e.toString());
         }
         return result;
+    }
+
+    public String makeAPICall(URIBuilder query)
+            throws URISyntaxException, IOException {
+        String response_content = "";
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpGet request = new HttpGet(query.build());
+
+        request.setHeader(HttpHeaders.ACCEPT, "application/json");
+        request.addHeader("X-CMC_PRO_API_KEY", apiKey);
+
+        CloseableHttpResponse response = client.execute(request);
+
+        try {
+            System.out.println(response.getStatusLine());
+            HttpEntity entity = response.getEntity();
+            response_content = EntityUtils.toString(entity);
+            EntityUtils.consume(entity);
+        } finally {
+            response.close();
+            client.close();
+        }
+
+        return response_content;
     }
 
     public String makeAPICall(String uri, List<NameValuePair> parameters)
