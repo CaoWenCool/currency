@@ -2,6 +2,7 @@ package com.currency.qrcode.currency.controller;
 
 import com.currency.qrcode.currency.model.ApiResult;
 import com.currency.qrcode.currency.model.CurrencyEnum;
+import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import com.currency.qrcode.currency.service.CoinmarketCapService;
 import com.currency.qrcode.currency.service.QrCodeService;
 import io.swagger.annotations.Api;
@@ -51,14 +52,28 @@ public class QrCodeController {
 
 
     @ApiOperation(
-            value = "获取BTC的价格",
-            notes = "宽度与高度只能是整数"
+            value = "请求BTC的价格",
+            notes = "请求BTC的价格"
     )
     @GetMapping(value = "/BTC/price")
-    public ApiResult getBTCPrice(@ApiParam("二维码宽度")
+    public ApiResult getBTCPrice(@ApiParam("请求地址")
                                  @RequestParam String path) {
         return ApiResult.ok(coinmarketCapService.getLatestPrice(path));
     }
+
+
+
+    @ApiOperation(
+            value = "请求地址列表",
+            notes = "请求地址列表"
+    )
+    @GetMapping(value = "/listing/latest")
+    public ApiResult getLatestPriceList(@ApiParam("二维码宽度")
+                                 @RequestParam ListingLatestRequest latestRequest) {
+
+        return ApiResult.ok(coinmarketCapService.getLatestPrice(path));
+    }
+
 
     @ApiOperation(
             value = "设置二维码的大小",
