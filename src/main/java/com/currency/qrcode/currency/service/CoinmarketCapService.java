@@ -72,7 +72,7 @@ public class CoinmarketCapService {
             query.setParameter("percent_change_24h_max", request.getPercentChange24hMax().toString());
         }
         if (null != request.getConvert()) {
-            query.setParameter("convert", request.getConvert().toString());
+            query.setParameter("convert", request.getConvert());
         }
         if (null != request.getConvertId()) {
             query.setParameter("convert_id", request.getConvertId());

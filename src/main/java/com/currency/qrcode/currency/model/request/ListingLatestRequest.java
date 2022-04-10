@@ -93,7 +93,7 @@ public class ListingLatestRequest {
      * string
      * Optionally calculate market quotes in up to 120 currencies at once by passing a comma-separated list of cryptocurrency or fiat currency symbols. Each additional convert option beyond the first requires an additional call credit. A list of supported fiat options can be found here. Each conversion is returned in its own "quote" object.
      */
-    private Number convert;
+    private String convert;
 
     /**
      *
@@ -207,11 +207,11 @@ public class ListingLatestRequest {
         this.percentChange24hMax = percentChange24hMax;
     }
 
-    public Number getConvert() {
+    public String getConvert() {
         return convert;
     }
 
-    public void setConvert(Number convert) {
+    public void setConvert(String convert) {
         this.convert = convert;
     }
 
