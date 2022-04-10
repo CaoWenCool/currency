@@ -69,12 +69,10 @@ public class QrCodeController {
                                  @RequestParam(required = false) String convertId,
                                  @ApiParam("aux")
                                  @RequestParam(required = false) String aux,
-                                 @ApiParam("elapsed")
-                                 @RequestParam(required = false) Integer elapsed,
                                  @ApiParam("skipInvalid")
                                  @RequestParam(required = false) Boolean skipInvalid) throws URISyntaxException {
         return ApiResult.ok(coinmarketCapService.getLatestPrice(id, symbol, slug, convert, convertId, aux,
-                skipInvalid,elapsed));
+                skipInvalid));
     }
 
 

@@ -104,7 +104,7 @@ public class CoinmarketCapService {
     }
 
     public String getLatestPrice(String id, String symbol, String slug, String convert, String convertId, String aux,
-                                 Boolean skipInvalid,Integer elapsed) throws URISyntaxException {
+                                 Boolean skipInvalid) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_LATEST_PRICE_URL);
         if (null != id) {
             query.setParameter("id", id);
@@ -123,9 +123,6 @@ public class CoinmarketCapService {
         }
         if (null != skipInvalid) {
             query.setParameter("skip_invalid", skipInvalid.toString());
-        }
-        if (null != elapsed){
-            query.setParameter("elapsed",elapsed.toString());
         }
         try {
             logger.info("request info:" + query.getQueryParams().toString());
