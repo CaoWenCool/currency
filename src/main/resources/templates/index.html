@@ -1,198 +1,666 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<style type="text/css">
-    * {
-        margin: 0;
-        padding: 0;
-        overflow: hidden
-    }
-
-    body {
-        height: 100%
-    }
-
-    input[type="radio"] {
-        width: 10%;
-        height: 10%;
-        opacity: 1;
-        margin-top: 5%;
-        margin-left: 5%;
-    }
-
-    .logo {
-        position: absolute;
-        top: 60%;
-        height: 10%;
-        width: 15%;
-        left: 4%;
-    }
-
-    .title {
-        position: absolute;
-        top: 60%;
-        height: 10%;
-        width: 60%;
-        left: 25%;
-        margin: 5% auto;
-    }
-
-    .code {
-        position: absolute;
-        top: 6%;
-        height: 20%;
-        width: 100%;
-        margin-left: -5%;
-    }
-
-    .money-input {
-        width: 50%;
-        height: 20%;
-        margin-top: 1%;
-    }
-
-    input[type="button"] {
-        width: 20%;
-        height: 20%;
-        margin-left: -3%;
-        background: red;
-    }
-
-    .money {
-        position: absolute;
-        top: 40%;
-        left: 1%;
-        height: 20%;
-        width: 100%;
-        margin-left: 5%;
-    }
-
-    .address {
-        width: 50%;
-        height: 20%;
-        margin-top: 1%;
-    }
-</style>
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>c
-    <link rel="stylesheet" th:href="@{/stati/css/button.css}">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript" th:src="@{/static/js/flexible.js}"></script>
     <script type="text/javascript" th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/jquery-1.8.2.min.js}"></script>
-</head>
-
-<body>
-<div style="width: 100%;height: 100%;position: fixed;">
-    <div style="width: 30%;height: 100%;position: absolute;top: 5%;left: 5%;bottom: 0px;">
-        <div>
-            <img th:src="@{/static/image/index.jpg}" style="height: 55%;width: 100%;position: absolute">
-        </div>
-        <div align="center">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="logo">
-                                <img th:src="@{/static/image/logo.jpeg}" style=" height: 100%;width: 100%;">
-                            </div>
-                        </td>
-                        <td align="left">
-                            <div class="title">
-                                <h2 style="font-size: 15px;">Nike Air Jordan - Jordan 1 OG Chicago (1985)</h2>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div style="width: 30%;height: 100%;position: absolute;top: 5%;left: 35%;bottom: 0px;">
-        <div align="center">
-            <div>
-                <h2 style="height: 100%;width: 100%;">Please Select Your Code</h2>
-            </div>
-            <div class="code" name="code">
-                <label style="height: 100%;width: 100%;">
-                    <input name="code" type="radio" value="BTC"/>BTC
-                    <input name="code" type="radio" value="USDT_OMNI"/>USDT (OMNI)
-                    <br>
-                    <input name="code" type="radio" value="ETH"/>ETH
-                    <input name="code" type="radio" value="USDT_ERC20"/>USDT (ERC20)
-                    <br>
-                    <input name="code" type="radio" value="TRX"/>TRX
-                    <input name="code" type="radio" value="USDT_TRC20"/>USDT (TRC20)
-                    <br>
-                </label>
-            </div>
-            <div align="center" class="money">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <span style="font-size: 18px;">Price：</span>
-                        </td>
-                        <td>
-                            <input id="money" name="money" class="money-input" style="height: 30px;width: 200px;"
-                                   type="text" placeholder="Please enter the purchase amount">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span style="font-size: 15px;"> Crypto Address：</span>
-                        </td>
-                        <td>
-                            <input id="address" class="address" name="address" style="height: 30px;width: 200px;"
-                                   type="text"
-                                   placeholder="Please enter the address">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <div style="text-align: right;">
-                                <button id="upButton"
-                                        style="margin-top: 1%;"
-                                        class="large button"
-                                        onclick="getCode()">Get QR Code
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div style="width: 30%;height: 100%;position: absolute;top: 0%;left: 65%;bottom: 0px;">
-        <div id="imageContainer" style="height: 55%;width: 100%;position: absolute;background:white;)) ">
-        </div>
-    </div>
+    <script type="text/javascript" th:src="@{/static/js/jquery-css.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/index.rem.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/index.after.css}" />
     <script>
-        function getCode() {
-            var code = $('input[name="code"]:checked').val();
-            var address = $("#address").val();
-            var money = $("#money").val();
-            console.log("code:" + code + ",address:" + address + ",money:" + money);
-            var url = "http://localhost:8080/currency/qrCode?currencyEnum=" + code + "&money=" + money + "&requireAddress=" + address
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'blob';
-            xhr.onload = function () {
-                if (this.status == 200) {
-                    var blob = this.response;
-                    var img = document.createElement("img");
-                    img.onload = function (e) {
-                        window.URL.createObjectURL(img.src);
-                    };
-                    img.src = window.URL.createObjectURL(blob);
-                    img.style = "height:100%;width:100%";
-                    console.log(img);
-                    $("#imageContainer").html(img);
-                }
-            }
-            xhr.send();
-        }
+      var url = "http://127.0.0.1:8080"
+      var activity_time_url = "/base/activity/time"
+      $(document).ready(function (){
+        $.ajax({
+          url: url + activity_time_url,
+          type:'get',
+          dataType:'json',
+          success:function (res){
+            var json_res = JSON.stringify(res)
+            console.log(json_res)
+            var activityTime = res["data"]
+            console.log(activityTime)
+            $(".txt4").html(activityTime)
+          },
+          error:function (xhr,errorMessage, e){
+            alert(errorMessage)
+          }
+        })
+      });
     </script>
-</body>
+  </head>
+  <body>
+    <div class="page flex-col">
+      <div class="outer7 flex-row justify-between">
+        <span class="txt10">Rewards</span>
+        <div class="group10 flex-col"></div>
+      </div>
+      <div class="outer8 flex-row">
+        <div class="outer9 flex-col"></div>
+        <div class="outer10 flex-col">
+          <div class="box11 flex-col justify-between">
+            <div class="bd9 flex-col">
+              <div class="wrap29">
+                <span class="word19">LUCKY&nbsp;NF</span>
+                <span class="word20">T</span>
+              </div>
+            </div>
+            <span class="txt11">
+              The&nbsp;price&nbsp;of&nbsp;BTC&nbsp;on&nbsp;CoinmarketCap&nbsp;at&nbsp;12:00pm&nbsp;GMT&nbsp;on&nbsp;the&nbsp;last&nbsp;day&nbsp;of&nbsp;each&nbsp;calendar&nbsp;month&nbsp;is&nbsp;defined&nbsp;as&nbsp;the&nbsp;real&nbsp;close&nbsp;price.&nbsp;The&nbsp;player&nbsp;who&nbsp;holds&nbsp;the&nbsp;NFT&nbsp;that&nbsp;shows&nbsp;the&nbsp;month-end&nbsp;close&nbsp;price&nbsp;equal&nbsp;or&nbsp;closest&nbsp;to&nbsp;the&nbsp;real&nbsp;close&nbsp;price&nbsp;will&nbsp;be&nbsp;awarded&nbsp;40%&nbsp;of&nbsp;the&nbsp;prize&nbsp;pool.
+            </span>
+          </div>
+        </div>
+        <div class="outer11 flex-col">
+          <div class="group11 flex-col justify-between">
+            <div class="outer12 flex-col">
+              <span class="word21">SAME&nbsp;TYPE</span>
+            </div>
+            <span class="txt12">
+              If&nbsp;players&nbsp;hold&nbsp;an&nbsp;NFT&nbsp;with&nbsp;the&nbsp;same&nbsp;line&nbsp;colour&nbsp;and&nbsp;type&nbsp;as&nbsp;Lucky&nbsp;NFT,&nbsp;which&nbsp;is&nbsp;called&nbsp;the&nbsp;Same&nbsp;Type&nbsp;NFT&nbsp;and&nbsp;players&nbsp;holding&nbsp;Same&nbsp;Type&nbsp;NFT&nbsp;will&nbsp;share&nbsp;30%&nbsp;of&nbsp;the&nbsp;prize&nbsp;pool&nbsp;equally.
+            </span>
+          </div>
+        </div>
+        <div class="outer13 flex-col">
+          <div class="group12 flex-col justify-between">
+            <div class="bd10 flex-col">
+              <span class="info9">HL&nbsp;NFT</span>
+            </div>
+            <span class="txt12">
+              If&nbsp;a&nbsp;player&nbsp;holds&nbsp;an&nbsp;NFT&nbsp;that&nbsp;bets&nbsp;the highest&nbsp;or&nbsp;lowest&nbsp;price&nbsp;of&nbsp;each&nbsp;calendar&nbsp;month&nbsp;(if&nbsp;no,&nbsp;go&nbsp;with&nbsp;the&nbsp;closest),&nbsp;we&nbsp;call&nbsp;it&nbsp;a&nbsp;High&nbsp;Low&nbsp;NFT&nbsp;(HL&nbsp;NFT).&nbsp;Players&nbsp;holding&nbsp;HL&nbsp;NFTs&nbsp;will&nbsp;share&nbsp;10%&nbsp;of&nbsp;the&nbsp;prize&nbsp;pool&nbsp;equally.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="outer14 flex-row justify-between">
+        <div class="section12 flex-col"></div>
+        <span class="info10">Properties</span>
+      </div>
+      <div class="outer15 flex-row">
+        <span class="paragraph2">
+          The&nbsp;NFT&nbsp;will&nbsp;show&nbsp;
+          <br />
+          <br />
+          -&nbsp;high&nbsp;price&nbsp;(Red,&nbsp;the&nbsp;highest&nbsp;price&nbsp;of&nbsp;that&nbsp;calendar&nbsp;month)
+          <br />
+          <br />
+          -&nbsp;low&nbsp;price&nbsp;(Green,&nbsp;the&nbsp;lowest&nbsp;price&nbsp;of&nbsp;that&nbsp;calendar&nbsp;month)
+          <br />
+          <br />
+          -&nbsp;close&nbsp;price&nbsp;(Yellow,&nbsp;the&nbsp;closing&nbsp;price&nbsp;of&nbsp;that&nbsp;calendar&nbsp;month)
+          <br />
+          <br />
+          -&nbsp;a&nbsp;random&nbsp;line&nbsp;type&nbsp;(8&nbsp;types&nbsp;in&nbsp;total:&nbsp;Solid&nbsp;Blue,&nbsp;Solid&nbsp;Cyan,&nbsp;Solid&nbsp;Magenta,&nbsp;Solid&nbsp;Black,&nbsp;Dashed&nbsp;Blue,&nbsp;Dashed&nbsp;Cyan,&nbsp;Dashed&nbsp;Magenta,&nbsp;Dashed&nbsp;Black&nbsp;)
+          <br />
+        </span>
+      </div>
+      <div class="outer16 flex-row justify-between">
+        <div class="box12 flex-col"></div>
+        <span class="word22">Prize&nbsp;Pool&nbsp;Allocation</span>
+      </div>
+      <div class="outer17 flex-row">
+        <span class="infoBox1">
+          •&nbsp;80%&nbsp;-&nbsp;Player&nbsp;Rewards&nbsp;(40%&nbsp;Lucky&nbsp;NFT&nbsp;+&nbsp;30%&nbsp;Same&nbsp;Type&nbsp;+&nbsp;10%&nbsp;HL&nbsp;NFT)
+          <br />
+          <br />
+          •&nbsp;10%&nbsp;-&nbsp;Project&nbsp;operation&nbsp;(team&nbsp;+&nbsp;server&nbsp;+&nbsp;GAS&nbsp;fee),&nbsp;project&nbsp;upgrade&nbsp;(automate&nbsp;the&nbsp;entire&nbsp;process),&nbsp;project&nbsp;compliance&nbsp;(if&nbsp;the&nbsp;project&nbsp;is&nbsp;alive&nbsp;after&nbsp;3&nbsp;months,&nbsp;I&nbsp;will&nbsp;follow&nbsp;the&nbsp;lawyer‘s&nbsp;suggestion&nbsp;to&nbsp;establish&nbsp;a&nbsp;compliance&nbsp;entity&nbsp;after&nbsp;that)
+          <br />
+          <br />
+          •&nbsp;10%&nbsp;-&nbsp;Foundation&nbsp;(after&nbsp;accumulating&nbsp;100&nbsp;ETH,&nbsp;community&nbsp;voting&nbsp;to&nbsp;decide&nbsp;which&nbsp;projects&nbsp;to&nbsp;fund)
+        </span>
+      </div>
+      <div class="outer18 flex-row">
+        <div class="group13 flex-col"></div>
+        <div class="group14 flex-col justify-between">
+          <div class="layer23 flex-row">
+            <div class="box13 flex-col">
+              <div class="box14 flex-row"><span class="word23">10%</span></div>
+              <div class="box15 flex-row"><span class="txt13">10%</span></div>
+              <div class="box16 flex-row justify-between">
+                <span class="info11">10%</span>
+                <span class="word24">40%</span>
+              </div>
+              <div class="box17 flex-row"><span class="word25">30%</span></div>
+            </div>
+            <div class="box18 flex-col">
+              <div class="layer24 flex-col"></div>
+              <div class="layer25 flex-col"></div>
+              <div class="layer26 flex-col"></div>
+              <div class="layer27 flex-col"></div>
+              <div class="layer28 flex-col"></div>
+            </div>
+            <div class="box19 flex-col justify-between">
+              <span class="info12">Lucky&nbsp;NFT</span>
+              <span class="info13">Same&nbsp;Type</span>
+              <span class="word26">HL&nbsp;NFT</span>
+              <span class="word27">Operation</span>
+              <span class="word28">Foundation</span>
+            </div>
+          </div>
+          <div class="layer29 flex-col"></div>
+        </div>
+        <div class="group15 flex-col"></div>
+      </div>
+      <div class="outer19 flex-row justify-between">
+        <span class="word29">Name</span>
+        <div class="TextGroup3 flex-col">
+          <div class="box20 flex-col justify-between">
+            <span class="info14">Contact</span>
+            <span class="word30">Email</span>
+          </div>
+        </div>
+      </div>
+      <div class="outer20 flex-row justify-between">
+        <img
+          class="pic4"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngebc287cc31d20f2c7a074cfb47f1ba153e878951cd0887f9951b8c216d0d355e.png}"
+        />
+        <img
+          class="pic5"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngebc287cc31d20f2c7a074cfb47f1ba153e878951cd0887f9951b8c216d0d355e.png}"
+        />
+      </div>
+      <div class="outer21 flex-row"><span class="word31">Subject</span></div>
+      <div class="outer22 flex-row"><div class="box21 flex-col"></div></div>
+      <div class="outer23 flex-row">
+        <div class="group16 flex-col">
+          <span class="word32">Type&nbsp;your&nbsp;message&nbsp;here…</span>
+        </div>
+      </div>
+      <div class="outer24 flex-row">
+        <div class="mod7 flex-col">
+          <div class="box22 flex-row justify-between">
+            <div class="box23">
+              <span class="info15">SUBMI</span>
+              <span class="info16">T</span>
+            </div>
+            <div class="box24 flex-col"></div>
+          </div>
+        </div>
+      </div>
+      <div class="outer25 flex-row justify-between">
+        <div class="section13 flex-col"></div>
+        <div class="section14 flex-col"></div>
+        <div class="section15 flex-col"></div>
+        <div class="section16 flex-col"></div>
+      </div>
+      <div class="mod1 flex-col">
+        <div class="bd1 flex-col">
+          <div class="layer1 flex-row">
+            <div class="wrap1 flex-col"></div>
+            <div class="wrap2 flex-col">
+              <div class="box1 flex-col"></div>
+              <div class="box2 flex-col"></div>
+            </div>
+            <div class="wrap3 flex-col justify-between">
+              <div class="block1">
+                <span class="txt1">White&nbsp;Pape</span>
+                <span class="word1">r</span>
+              </div>
+              <div class="block2 flex-col"></div>
+            </div>
+            <div class="wrap4 flex-col justify-between">
+              <div class="bd2 flex-col"></div>
+              <div class="bd3 flex-col">
+                <div class="wrap5 flex-col"></div>
+                <div class="wrap6 flex-col"></div>
+              </div>
+            </div>
+            <div class="wrap7 flex-row">
+              <div class="block3 flex-col">
+                <div class="wrap8 flex-col"></div>
+                <div class="wrap9 flex-col"></div>
+              </div>
+              <span class="word2">Winner&nbsp;History</span>
+              <div class="block4 flex-col"></div>
+            </div>
+            <div class="wrap10 flex-col justify-between">
+              <div class="section2 flex-col"></div>
+              <div class="section3 flex-col">
+                <div class="group1 flex-col"></div>
+                <div class="group2 flex-col"></div>
+              </div>
+            </div>
+            <div class="wrap11 flex-row">
+              <div class="section4 flex-col">
+                <div class="group3 flex-col"></div>
+                <div class="group4 flex-col"></div>
+              </div>
+              <div class="section5 flex-col"></div>
+              <span class="txt2">Reward</span>
+              <div class="section6 flex-col">
+                <div class="section7 flex-col"></div>
+                <div class="section8 flex-col"></div>
+              </div>
+              <div class="section9 flex-col"></div>
+            </div>
+            <div class="wrap12 flex-col justify-between">
+              <div class="layer2 flex-row justify-between">
+                <div class="group5 flex-col">
+                  <div class="main1 flex-col"></div>
+                  <div class="main2 flex-col"></div>
+                </div>
+                <span class="word3">Rules</span>
+              </div>
+              <div class="layer3 flex-col"></div>
+            </div>
+            <div class="wrap13 flex-col justify-between">
+              <div class="box3 flex-col"></div>
+              <div class="box4 flex-col">
+                <div class="box5 flex-col"></div>
+                <div class="box6 flex-col"></div>
+              </div>
+            </div>
+            <div class="wrap14 flex-row">
+              <div class="wrap15 flex-col">
+                <div class="box7 flex-col"></div>
+                <div class="box8 flex-col"></div>
+              </div>
+              <div class="wrap16 flex-col"></div>
+              <span class="txt3">Creator</span>
+              <div class="wrap17 flex-col">
+                <div class="layer4 flex-col"></div>
+                <div class="layer5 flex-col"></div>
+              </div>
+              <div class="wrap18 flex-col"></div>
+            </div>
+            <div class="wrap19 flex-col justify-between">
+              <div class="box9 flex-row justify-between">
+                <div class="outer1 flex-col">
+                  <div class="group6 flex-col"></div>
+                  <div class="group7 flex-col"></div>
+                </div>
+                <span class="word4">Contact</span>
+              </div>
+              <div class="box10 flex-col"></div>
+            </div>
+            <div class="wrap20 flex-col justify-between">
+              <div class="layer6 flex-col"></div>
+              <div class="layer7 flex-col">
+                <div class="bd4 flex-col"></div>
+                <div class="bd5 flex-col"></div>
+              </div>
+            </div>
+            <div class="wrap21 flex-col"></div>
+            <div class="wrap22 flex-col"></div>
+            <div class="wrap23 flex-col"></div>
+            <div class="wrap24 flex-col"></div>
+          </div>
+          <img
+            class="img1"
+            referrerpolicy="no-referrer"
+            th:src="@{/static/img/SketchPng9f40e79703fe77b57e2e3871675ef18e716125b808b2fd4ce7c090c119ae592d.png}"
+          />
+          <div class="layer8 flex-row">
+            <div class="layer9 flex-col justify-between">
+              <span class="txt4">2022.05.01-2022.5.30</span>
+              <span class="word5">BTC：40000.0000</span>
+            </div>
+            <div class="layer10 flex-col">
+              <div class="layer11 flex-col justify-between">
+                <span class="word6">40000.001</span>
+                <span class="info1">Highest&nbsp;price</span>
+              </div>
+            </div>
+            <div class="layer12 flex-col">
+              <div class="mod2 flex-col justify-between">
+                <span class="txt5">40000.002</span>
+                <span class="word7">Lowest&nbsp;price</span>
+              </div>
+            </div>
+          </div>
+          <div class="layer13 flex-col">
+            <div class="layer14 flex-row justify-between">
+              <div class="ImageText1 flex-col">
+                <div class="mod3 flex-row justify-between">
+                  <div class="section10 flex-col"></div>
+                  <div class="TextGroup1 flex-col">
+                    <div class="bd6 flex-row">
+                      <span class="info2">100</span>
+                      <span class="txt6">ETH</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="outer2 flex-col">
+                <div class="group8">
+                  <span class="info3">27305643557dhfgi</span>
+                  <span class="word8">g</span>
+                </div>
+              </div>
+            </div>
+            <div class="layer15 flex-row justify-between">
+              <div class="wrap25 flex-col">
+                <div class="main3 flex-col justify-between">
+                  <span class="word9">Lowest&nbsp;price</span>
+                  <div class="outer3 flex-col">
+                    <span class="info4">Token&nbsp;lD：2738</span>
+                  </div>
+                </div>
+              </div>
+              <div class="wrap26 flex-col">
+                <div class="section11 flex-col justify-between">
+                  <span class="word10">Best&nbsp;price</span>
+                  <div class="bd7 flex-col">
+                    <span class="txt7">Token&nbsp;lD：2738</span>
+                  </div>
+                </div>
+              </div>
+              <div class="wrap27 flex-col">
+                <div class="layer16 flex-col justify-between">
+                  <span class="word11">Highest&nbsp;price</span>
+                  <div class="outer4 flex-col">
+                    <span class="txt8">Token&nbsp;lD：2738</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="word12">ETH</span>
+          </div>
+          <div class="layer17 flex-col">
+            <div class="bd8 flex-row justify-between">
+              <span class="info5">VIEW&nbsp;ON&nbsp;OPENSEA</span>
+              <div class="layer18 flex-col"></div>
+            </div>
+          </div>
+          <span class="txt9">WINNING&nbsp;LIST</span>
+          <div class="layer19 flex-col">
+            <div class="outer5 flex-row">
+              <span class="word13">Price</span>
+              <span class="info6">USD&nbsp;&nbsp;Price</span>
+              <span class="word14">Floor&nbsp;Difference</span>
+              <span class="word15">Expirat</span>
+            </div>
+          </div>
+          <div class="outer6 flex-col">
+            <div class="mod4 flex-row">
+              <div class="wrap28 flex-col"></div>
+              <span class="info7">35.6WETH</span>
+              <span class="word16">$70,738.00</span>
+              <span class="info8">8%below</span>
+              <span class="word17">1days</span>
+            </div>
+          </div>
+          <div class="bd11 flex-col">
+            <div class="main4 flex-row">
+              <div class="bd12 flex-col"></div>
+              <span class="txt14">32.4WETH</span>
+              <span class="word33">$65,345.23</span>
+              <span class="word34">12%below</span>
+              <span class="word35">about</span>
+            </div>
+          </div>
+          <div class="bd13 flex-col">
+            <div class="mod8 flex-row">
+              <div class="mod9 flex-col"></div>
+              <span class="info17">24.5DAl</span>
+              <span class="info18">$32,45</span>
+              <span class="word36">98%below</span>
+              <span class="word37">22day</span>
+            </div>
+          </div>
+          <div class="layer21 flex-col">
+            <div class="box25 flex-row">
+              <div class="ImageText3 flex-col">
+                <div class="box25 flex-row justify-between">
+                  <div class="TextGroup2 flex-col">
+                    <span class="word18">MORE</span>
+                  </div>
+                  <div class="layer22 flex-col"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img
+          class="pic1"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPnge8a2b793471339f643ff48d7f38cfdeecf597e0a2710d7a9b429be3a872a6671.png}"
+        />
+        <img
+          class="img2"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPnge8a2b793471339f643ff48d7f38cfdeecf597e0a2710d7a9b429be3a872a6671.png}"
+        />
+        <img
+          class="img3"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngdaae06caedf31dfd6f4c193a1de18cef304eba519ce46dc8d9a73444a05f52f9.png}"
+        />
+        <img
+          class="pic2"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngdaae06caedf31dfd6f4c193a1de18cef304eba519ce46dc8d9a73444a05f52f9.png}"
+        />
+        <img
+          class="pic3"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngdaae06caedf31dfd6f4c193a1de18cef304eba519ce46dc8d9a73444a05f52f9.png}"
+        />
+        <img
+          class="img4"
+          referrerpolicy="no-referrer"
+          th:src="@{/static/img/SketchPngdaae06caedf31dfd6f4c193a1de18cef304eba519ce46dc8d9a73444a05f52f9.png}"
+        />
+        <div class="section1 flex-col"></div>
+      </div>
+      <div class="mod5 flex-col"></div>
+      <div class="mod6 flex-col"></div>
+      <div class="outer26 flex-col"></div>
+      <div class="outer27 flex-col">
+        <div class="mod10">
+          <span class="paragraph3">
+            //&nbsp;-----&nbsp;utils&nbsp;-----&nbsp;//
+            <br />
+            <br />
+            var&nbsp;arraySlice&nbsp;=&nbsp;Array.prototype.slice;
+            <br />
+            <br />
+            //&nbsp;helper&nbsp;function&nbsp;for&nbsp;logging&nbsp;errors
+            <br />
+            //&nbsp;$.error&nbsp;breaks&nbsp;jQuery&nbsp;chaining
+            <br />
+            var&nbsp;console&nbsp;=&nbsp;window.console
+            <br />
+            &nbsp;&nbsp;};
+            <br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;do&nbsp;async&nbsp;to&nbsp;allow&nbsp;for&nbsp;other&nbsp;scripts&nbsp;to&nbsp;run.&nbsp;metafizzy/flickity#44
+          </span>
+          <span class="info19">1</span>
+        </div>
+      </div>
+      <div class="outer28 flex-col"></div>
+      <div class="outer29 flex-col"></div>
+      <div class="outer30 flex-col">
+        <div class="mod11 flex-row justify-between">
+          <div class="section17 flex-col">
+            <div class="section18 flex-col"></div>
+          </div>
+          <span class="txt15">Rules</span>
+        </div>
+        <div class="mod12 flex-col">
+          <div class="outer31 flex-col">
+            <div class="box26 flex-col">
+              <span class="infoBox2">
+                //&nbsp;-----&nbsp;utils&nbsp;-----&nbsp;//
+                <br />
+                <br />
+                var&nbsp;arraySlice&nbsp;=&nbsp;Array.prototype.slice;
+                <br />
+                <br />
+                //&nbsp;helper&nbsp;function&nbsp;for&nbsp;logging&nbsp;errors
+                <br />
+                //&nbsp;$.error&nbsp;breaks&nbsp;jQuery&nbsp;chaining
+                <br />
+                var&nbsp;console&nbsp;=&nbsp;window.console;
+                <br />
+              </span>
+              <div class="mod13 flex-row justify-between">
+                <div class="section19 flex-col justify-between">
+                  <div class="outer32 flex-col"></div>
+                  <span class="word38">450</span>
+                </div>
+                <span class="paragraph4">
+                  Design&nbsp;Philosophy&nbsp;
+                  <br />
+                  Monte&nbsp;Carlo&nbsp;Simulation
+                  <br />
+                </span>
+              </div>
+              <span class="txt16">400</span>
+              <span class="txt17">350</span>
+              <span class="txt18">300</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="outer33 flex-col">
+        <div class="main5 flex-row justify-between">
+          <div class="outer34 flex-col"></div>
+          <div class="outer35 flex-col">
+            <span class="word39">
+              The&nbsp;price&nbsp;of&nbsp;BTC&nbsp;&nbsp;is&nbsp;simulated&nbsp;10K&nbsp;times&nbsp;at&nbsp;the&nbsp;beginning&nbsp;of&nbsp;each&nbsp;month.&nbsp;Every&nbsp;price&nbsp;walk&nbsp;curve&nbsp;generated&nbsp;through&nbsp;Monte&nbsp;Carlo&nbsp;simulations&nbsp;is&nbsp;created&nbsp;as&nbsp;a&nbsp;NFT&nbsp;and&nbsp;collectively&nbsp;assembled&nbsp;into&nbsp;a&nbsp;series&nbsp;of&nbsp;10K&nbsp;NFTs&nbsp;for&nbsp;the&nbsp;month.&nbsp;These&nbsp;NFTs&nbsp;are&nbsp;“similar&nbsp;to”&nbsp;derivative&nbsp;contracts,&nbsp;which&nbsp;contain&nbsp;not&nbsp;only&nbsp;the&nbsp;curves&nbsp;of&nbsp;the&nbsp;Random&nbsp;Walk&nbsp;but&nbsp;also&nbsp;the&nbsp;expiry&nbsp;price&nbsp;(the&nbsp;execution&nbsp;price&nbsp;in&nbsp;derivatives).&nbsp;Players&nbsp;are&nbsp;free&nbsp;to&nbsp;trade&nbsp;the&nbsp;Bitcoin&nbsp;Bets&nbsp;NFT&nbsp;collection&nbsp;each&nbsp;month&nbsp;between&nbsp;its&nbsp;release&nbsp;and&nbsp;prize&nbsp;draw,&nbsp;and&nbsp;the&nbsp;player&nbsp;who&nbsp;holds&nbsp;the&nbsp;NFT&nbsp;with&nbsp;the&nbsp;close&nbsp;price&nbsp;closest&nbsp;to&nbsp;the&nbsp;real&nbsp;close&nbsp;price&nbsp;of&nbsp;BTC&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;that&nbsp;month&nbsp;will&nbsp;be&nbsp;rewarded&nbsp;accordingly.
+            </span>
+            <div class="bd14 flex-row justify-between">
+              <div class="mod14 flex-col"></div>
+              <span class="txt19">Trade</span>
+            </div>
+            <span class="word40">
+              The&nbsp;monthly&nbsp;collection&nbsp;of&nbsp;Bitcoin&nbsp;Bets&nbsp;NFT&nbsp;will&nbsp;be&nbsp;sold&nbsp;on&nbsp;Opensea&nbsp;at&nbsp;a&nbsp;starting&nbsp;price&nbsp;of&nbsp;0.03&nbsp;ETH&nbsp;per&nbsp;NFT&nbsp;(no&nbsp;network&nbsp;limit),&nbsp;and&nbsp;any&nbsp;offers&nbsp;above&nbsp;that&nbsp;price&nbsp;will&nbsp;be&nbsp;accepted&nbsp;unconditionally.&nbsp;When&nbsp;players&nbsp;resell&nbsp;their&nbsp;NFTs,&nbsp;2.5%&nbsp;of&nbsp;the&nbsp;transaction&nbsp;price&nbsp;will&nbsp;go&nbsp;to&nbsp;Opensesa,&nbsp;and&nbsp;2.5%&nbsp;will&nbsp;vest&nbsp;in&nbsp;an&nbsp;Ether&nbsp;address&nbsp;designated&nbsp;by&nbsp;the&nbsp;prize&nbsp;pool.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="outer36 flex-col"></div>
+      <div class="outer37 flex-col"><div class="group17 flex-col"></div></div>
+      <div class="outer38 flex-col"></div>
+      <div class="outer39 flex-col"></div>
+      <div class="outer40 flex-col">
+        <div class="bd15 flex-row"><span class="word41">250</span></div>
+        <div class="bd16 flex-row"><span class="info20">200</span></div>
+        <div class="bd17 flex-row"><span class="info21">150</span></div>
+        <div class="bd18 flex-row"><span class="txt20">100</span></div>
+        <div class="bd19 flex-row"><span class="word42">50</span></div>
+        <div class="bd20 flex-row justify-between">
+          <div class="box27 flex-col"></div>
+          <div class="box28 flex-col"></div>
+          <div class="box29 flex-col"></div>
+          <div class="box30 flex-col"></div>
+          <div class="box31 flex-col"></div>
+          <div class="box32 flex-col"></div>
+          <div class="box33 flex-col"></div>
+        </div>
+        <div class="bd21 flex-row justify-between">
+          <span class="txt21">2018.12</span>
+          <span class="txt22">2019.02</span>
+          <span class="word43">2019.04</span>
+          <span class="info22">2019.06</span>
+          <span class="word44">2019.08</span>
+          <span class="word45">2019.10</span>
+          <span class="word46">2019.12</span>
+        </div>
+        <div class="bd22 flex-row">
+          <span class="txt23">S(t)=S(0)e</span>
+          <div class="main6">
+            <span class="txt24">（</span>
+            <span class="word47">r-</span>
+          </div>
+          <div class="main7 flex-col">
+            <span class="info23">1</span>
+            <div class="wrap30 flex-col"></div>
+            <span class="word48">2</span>
+          </div>
+          <span class="word49">σ</span>
+          <span class="word50">2</span>
+          <span class="info24">）</span>
+          <span class="txt25">t+σ(</span>
+          <div class="main8">
+            <span class="info25">W(t)-W(0)</span>
+            <span class="word51">)</span>
+          </div>
+        </div>
+        <div class="bd23 flex-col">
+          <div class="block5 flex-col"></div>
+          <div class="block6 flex-col"></div>
+          <div class="block7 flex-col"></div>
+          <div class="block8 flex-col"></div>
+          <div class="block9 flex-col"></div>
+          <div class="block10 flex-col"></div>
+          <div class="block11 flex-col"></div>
+          <div class="block12 flex-col"></div>
+          <div class="block13 flex-col"></div>
+          <div class="block14 flex-col"></div>
+        </div>
+        <div class="bd24 flex-col"></div>
+      </div>
+      <span class="infoBox3">
+        Here,&nbsp;the&nbsp;paths&nbsp;of&nbsp;BTC&nbsp;price&nbsp;are&nbsp;simulated&nbsp;based
+        <br />
+        <br />
+        <br />
+        <br />
+        It&nbsp;is&nbsp;not&nbsp;difficult&nbsp;to&nbsp;find&nbsp;that&nbsp;due&nbsp;to&nbsp;the&nbsp;randomness&nbsp;of&nbsp;Brownian&nbsp;Motion,&nbsp;the&nbsp;simulated&nbsp;paths&nbsp;can&nbsp;hardly&nbsp;be&nbsp;found&nbsp;to&nbsp;be&nbsp;exactly&nbsp;the&nbsp;same,&nbsp;thus&nbsp;conforming&nbsp;to&nbsp;the&nbsp;non-homogenisation&nbsp;characteristics&nbsp;of&nbsp;NFT.&nbsp;Each&nbsp;simulated&nbsp;path&nbsp;is&nbsp;made&nbsp;into&nbsp;an&nbsp;NFT,&nbsp;these&nbsp;NFTs&nbsp;will&nbsp;use&nbsp;different&nbsp;line&nbsp;types&nbsp;and&nbsp;identify&nbsp;the&nbsp;highest&nbsp;price,&nbsp;the&nbsp;lowest&nbsp;price&nbsp;and&nbsp;the&nbsp;close&nbsp;price&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;month.
+        <br />
+      </span>
+      <div class="outer41 flex-col"></div>
+      <div class="outer42 flex-col"></div>
+      <div class="outer43 flex-col"></div>
+      <div class="outer44 flex-col">
+        <div class="box34 flex-row">
+          <div class="bd25 flex-col"></div>
+          <div class="bd26 flex-col"></div>
+          <div class="bd27 flex-col">
+            <div class="section20 flex-col justify-end">
+              <div class="bd28 flex-row">
+                <div class="bd29 flex-col"></div>
+                <div class="bd30 flex-col justify-between">
+                  <div class="main9 flex-row">
+                    <div class="main10 flex-col"></div>
+                    <div class="main11 flex-col"></div>
+                    <div class="ImageText4 flex-col">
+                      <div class="layer30 flex-col justify-between">
+                        <div class="outer45 flex-col"></div>
+                        <div class="TextGroup4 flex-col">
+                          <span class="txt26">DR&nbsp;H</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="main12 flex-col"></div>
+                  </div>
+                  <div class="main13">
+                    <span class="word52">
+                      Ten&nbsp;years’&nbsp;experience&nbsp;in&nbsp;financial&nbsp;derivatives&nbsp;design,&nbsp;pricing&nbsp;and&nbsp;trading.All&nbsp;in&nbsp;Crypto&nbsp;and&nbsp;Blockchain&nbsp;since&nbsp;2015.A&nbsp;strong&nbsp;believer&nbsp;in&nbsp;BTC&nbsp;and&nbsp;ETH
+                    </span>
+                    <span class="word53">.</span>
+                  </div>
+                </div>
+                <div class="bd31 flex-col justify-between">
+                  <div class="mod15 flex-col"></div>
+                  <div class="mod16 flex-col"></div>
+                </div>
+              </div>
+              <div class="bd32 flex-row">
+                <div class="mod17 flex-col"></div>
+              </div>
+              <div class="bd33 flex-col"></div>
+            </div>
+          </div>
+          <div class="bd34 flex-col justify-between">
+            <div class="group18 flex-col"></div>
+            <div class="group19 flex-col"></div>
+          </div>
+        </div>
+      </div>
+      <div class="outer46 flex-col"></div>
+      <div class="outer47 flex-col"></div>
+      <div class="outer48 flex-col"></div>
+      <div class="outer49 flex-col"></div>
+    </div>
+  </body>
 </html>

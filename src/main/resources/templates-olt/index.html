@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        overflow: hidden
+    }
+
+    body {
+        height: 100%
+    }
+
+    input[type="radio"] {
+        width: 10%;
+        height: 10%;
+        opacity: 1;
+        margin-top: 5%;
+        margin-left: 5%;
+    }
+
+    .logo {
+        position: absolute;
+        top: 60%;
+        height: 10%;
+        width: 15%;
+        left: 4%;
+    }
+
+    .title {
+        position: absolute;
+        top: 60%;
+        height: 10%;
+        width: 60%;
+        left: 25%;
+        margin: 5% auto;
+    }
+
+    .code {
+        position: absolute;
+        top: 6%;
+        height: 20%;
+        width: 100%;
+        margin-left: -5%;
+    }
+
+    .money-input {
+        width: 50%;
+        height: 20%;
+        margin-top: 1%;
+    }
+
+    input[type="button"] {
+        width: 20%;
+        height: 20%;
+        margin-left: -3%;
+        background: red;
+    }
+
+    .money {
+        position: absolute;
+        top: 40%;
+        left: 1%;
+        height: 20%;
+        width: 100%;
+        margin-left: 5%;
+    }
+
+    .address {
+        width: 50%;
+        height: 20%;
+        margin-top: 1%;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>c
+    <link rel="stylesheet" th:href="@{/stati/css/button.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery-1.8.2.min.js}"></script>
+</head>
+
+<body>
+<div style="width: 100%;height: 100%;position: fixed;">
+    <div style="width: 30%;height: 100%;position: absolute;top: 5%;left: 5%;bottom: 0px;">
+        <div>
+            <img th:src="@{/static/image/index.jpg}" style="height: 55%;width: 100%;position: absolute">
+        </div>
+        <div align="center">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="logo">
+                                <img th:src="@{/static/image/logo.jpeg}" style=" height: 100%;width: 100%;">
+                            </div>
+                        </td>
+                        <td align="left">
+                            <div class="title">
+                                <h2 style="font-size: 15px;">Nike Air Jordan - Jordan 1 OG Chicago (1985)</h2>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="width: 30%;height: 100%;position: absolute;top: 5%;left: 35%;bottom: 0px;">
+        <div align="center">
+            <div>
+                <h2 style="height: 100%;width: 100%;">Please Select Your Code</h2>
+            </div>
+            <div class="code" name="code">
+                <label style="height: 100%;width: 100%;">
+                    <input name="code" type="radio" value="BTC"/>BTC
+                    <input name="code" type="radio" value="USDT_OMNI"/>USDT (OMNI)
+                    <br>
+                    <input name="code" type="radio" value="ETH"/>ETH
+                    <input name="code" type="radio" value="USDT_ERC20"/>USDT (ERC20)
+                    <br>
+                    <input name="code" type="radio" value="TRX"/>TRX
+                    <input name="code" type="radio" value="USDT_TRC20"/>USDT (TRC20)
+                    <br>
+                </label>
+            </div>
+            <div align="center" class="money">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <span style="font-size: 18px;">Price：</span>
+                        </td>
+                        <td>
+                            <input id="money" name="money" class="money-input" style="height: 30px;width: 200px;"
+                                   type="text" placeholder="Please enter the purchase amount">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="font-size: 15px;"> Crypto Address：</span>
+                        </td>
+                        <td>
+                            <input id="address" class="address" name="address" style="height: 30px;width: 200px;"
+                                   type="text"
+                                   placeholder="Please enter the address">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <div style="text-align: right;">
+                                <button id="upButton"
+                                        style="margin-top: 1%;"
+                                        class="large button"
+                                        onclick="getCode()">Get QR Code
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div style="width: 30%;height: 100%;position: absolute;top: 0%;left: 65%;bottom: 0px;">
+        <div id="imageContainer" style="height: 55%;width: 100%;position: absolute;background:white;)) ">
+        </div>
+    </div>
+    <script>
+        function getCode() {
+            var code = $('input[name="code"]:checked').val();
+            var address = $("#address").val();
+            var money = $("#money").val();
+            console.log("code:" + code + ",address:" + address + ",money:" + money);
+            var url = "http://localhost:8080/currency/qrCode?currencyEnum=" + code + "&money=" + money + "&requireAddress=" + address
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    var blob = this.response;
+                    var img = document.createElement("img");
+                    img.onload = function (e) {
+                        window.URL.createObjectURL(img.src);
+                    };
+                    img.src = window.URL.createObjectURL(blob);
+                    img.style = "height:100%;width:100%";
+                    console.log(img);
+                    $("#imageContainer").html(img);
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
