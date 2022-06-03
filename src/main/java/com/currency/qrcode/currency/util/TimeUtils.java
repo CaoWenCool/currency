@@ -1,8 +1,5 @@
 package com.currency.qrcode.currency.util;
 
-import com.sun.org.apache.regexp.internal.RE;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
