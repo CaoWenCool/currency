@@ -78,11 +78,11 @@ public class QrCodeController {
     )
     @GetMapping(value = "/BTC/price")
     public ApiResult getBTCPrice(@ApiParam("id")
-                                 @RequestParam(required = false) String id,
+                                 @RequestParam(required = false,defaultValue = "1") String id,
                                  @ApiParam("symbol")
-                                 @RequestParam(required = false) String symbol,
+                                 @RequestParam(required = false,defaultValue = "BTC") String symbol,
                                  @ApiParam("slug")
-                                 @RequestParam(required = false) String slug,
+                                 @RequestParam(required = false,defaultValue = "bitcoin") String slug,
                                  @ApiParam("convert")
                                  @RequestParam(required = false) String convert,
                                  @ApiParam("convertId")

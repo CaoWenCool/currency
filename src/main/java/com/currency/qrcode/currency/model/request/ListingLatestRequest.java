@@ -1,5 +1,9 @@
 package com.currency.qrcode.currency.model.request;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("请求列表")
 public class ListingLatestRequest {
 
     /**
@@ -8,6 +12,7 @@ public class ListingLatestRequest {
      * 1
      * Optionally offset the start (1-based index) of the paginated list of items to return.
      */
+    @ApiModelProperty(value = "开始编号")
     private Integer start;
 
     /**
@@ -16,6 +21,7 @@ public class ListingLatestRequest {
      * 100
      * Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.
      */
+    @ApiModelProperty(value = "开始编号")
     private Integer limit;
 
     /**
@@ -23,6 +29,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of minimum USD price to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number priceMin;
 
     /**
@@ -30,6 +37,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of maximum USD price to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number priceMax;
 
     /**
@@ -37,6 +45,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of minimum market cap to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number marketCapMin;
 
     /**
@@ -44,6 +53,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of maximum market cap to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number marketCapMax;
 
     /**
@@ -51,6 +61,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of minimum 24 hour USD volume to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number volumn24hMin;
 
     /**
@@ -58,6 +69,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of maximum 24 hour USD volume to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number volumn24hMax;
 
     /**
@@ -65,6 +77,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of minimum circulating supply to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number circulatingSupplyMin;
 
     /**
@@ -72,6 +85,7 @@ public class ListingLatestRequest {
      * number [ 0 .. 100000000000000000 ]
      * Optionally specify a threshold of maximum circulating supply to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number circulatingSupplyMax;
 
     /**
@@ -79,6 +93,7 @@ public class ListingLatestRequest {
      * number >= -100
      * Optionally specify a threshold of minimum 24 hour percent change to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number percentChange24hMin;
 
     /**
@@ -86,6 +101,7 @@ public class ListingLatestRequest {
      * number >= -100
      * Optionally specify a threshold of maximum 24 hour percent change to filter results by.
      */
+    @ApiModelProperty(value = "开始编号")
     private Number percentChange24hMax;
 
     /**
@@ -93,21 +109,28 @@ public class ListingLatestRequest {
      * string
      * Optionally calculate market quotes in up to 120 currencies at once by passing a comma-separated list of cryptocurrency or fiat currency symbols. Each additional convert option beyond the first requires an additional call credit. A list of supported fiat options can be found here. Each conversion is returned in its own "quote" object.
      */
+    @ApiModelProperty(value = "开始编号")
     private String convert;
 
     /**
      *
      */
+    @ApiModelProperty(value = "开始编号")
     private String convertId;
 
+    @ApiModelProperty(value = "开始编号")
     private String sort;
 
+    @ApiModelProperty(value = "开始编号")
     private String sortDir;
 
+    @ApiModelProperty(value = "开始编号")
     private String cryptocurrencyType;
 
+    @ApiModelProperty(value = "开始编号")
     private String tag;
 
+    @ApiModelProperty(value = "开始编号")
     private String aux;
 
 
