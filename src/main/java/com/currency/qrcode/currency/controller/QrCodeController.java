@@ -51,10 +51,37 @@ public class QrCodeController {
 //        return null;
 //    }
 
+    @ApiOperation(
+            value = "请求获取货币的键值对信息",
+            notes = "请求获取货币的键值对信息"
+    )
+    @GetMapping(value = "/coin/map")
+    public ApiResult getCoinMap(
+            @ApiParam("listingStatus")
+            @RequestParam(required = false)
+            String listingStatus,
+            @ApiParam("start")
+            @RequestParam(required = false)
+            Integer start,
+            @ApiParam("limit")
+            @RequestParam(required = false)
+            Integer limit,
+            @ApiParam("sort")
+            @RequestParam(required = false)
+            String sort,
+            @ApiParam("symbol")
+            @RequestParam(required = false)
+            String symbol,
+            @ApiParam("aux")
+            @RequestParam(required = false)
+            String aux) throws URISyntaxException {
+
+        return ApiResult.ok(coinmarketCapService.getMapInfo(listingStatus,start,limit,sort,symbol,aux));
+    }
 
     @ApiOperation(
-            value = "请求BTC的价格",
-            notes = "请求BTC的价格"
+            value = "请求获取的元数据信息",
+            notes = "请求获取的元数据信息"
     )
     @GetMapping(value = "/coin/info")
     public ApiResult getCoinInfo(
@@ -73,8 +100,8 @@ public class QrCodeController {
     }
 
     @ApiOperation(
-            value = "请求BTC的价格",
-            notes = "请求BTC的价格"
+            value = "请求获取币种的对应的转换价格",
+            notes = "请求获取币种的对应的转换价格"
     )
     @GetMapping(value = "/BTC/price")
     public ApiResult getBTCPrice(@ApiParam("id")

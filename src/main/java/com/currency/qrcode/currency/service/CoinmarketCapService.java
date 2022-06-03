@@ -29,6 +29,45 @@ public class CoinmarketCapService {
     private static final String COINMARKETCAP_LATEST_PRICE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
     private static final String COINMARKETCAP_LISTING_LATEST_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String COINMARKETCAP_INFO_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info";
+    private static final String COINMARKETCAP_MAP_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map";
+
+    public String getMapInfo(String listingStatus,Integer start,Integer limit,String sort,String symbol,String aux) throws URISyntaxException {
+        URIBuilder query = new URIBuilder(COINMARKETCAP_MAP_URL);
+        if(StringUtils.isNotEmpty(listingStatus)){
+            query.setParameter("listing_status",listingStatus);
+        }
+        if(null != start){
+            query.setParameter("start",start.toString());
+        }
+        if(null != limit){
+            query.setParameter("limit",limit.toString());
+        }
+        if(StringUtils.isNotEmpty(sort)){
+            query.setParameter("sort",sort);
+        }
+        if(StringUtils.isNotEmpty(symbol)){
+            query.setParameter("symbol",symbol);
+        }
+        if(StringUtils.isNotEmpty(aux)){
+            query.setParameter("aux",aux);
+        }
+        return getResult(query);
+    }
+
+    private String getResult(URIBuilder query){
+        try {
+            logger.info("request info:" + query.getQueryParams().toString());
+            String result = makeAPICall(query);
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: cannont access content - " + e.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            System.out.println("Error: Invalid URL " + e.toString());
+        }
+        return  null;
+    }
 
     public String getCoinInfo(String id,String slug,String symbol,String address,String aux) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_INFO_URL);
@@ -47,19 +86,7 @@ public class CoinmarketCapService {
         if(StringUtils.isNotBlank(aux)){
             query.setParameter("aux",aux);
         }
-
-        try {
-            logger.info("request info:" + query.getQueryParams().toString());
-            String result = makeAPICall(query);
-            return result;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error: cannont access content - " + e.toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            System.out.println("Error: Invalid URL " + e.toString());
-        }
-        return null;
+        return getResult(query);
     }
 
     public String getListingLatest(ListingLatestRequest request) throws URISyntaxException {
@@ -121,19 +148,7 @@ public class CoinmarketCapService {
         if (null != request.getAux()) {
             query.setParameter("aux", request.getAux());
         }
-
-        try {
-            logger.info("request info:" + query.getQueryParams().toString());
-            String result = makeAPICall(query);
-            return result;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error: cannont access content - " + e.toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            System.out.println("Error: Invalid URL " + e.toString());
-        }
-        return null;
+        return getResult(query);
     }
 
     public String getLatestPrice(String id, String symbol, String slug, String convert, String convertId, String aux,
@@ -157,18 +172,7 @@ public class CoinmarketCapService {
         if (null != skipInvalid) {
             query.setParameter("skip_invalid", skipInvalid.toString());
         }
-        try {
-            logger.info("request info:" + query.getQueryParams().toString());
-            String result = makeAPICall(query);
-            return result;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error: cannont access content - " + e.toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            System.out.println("Error: Invalid URL " + e.toString());
-        }
-        return null;
+        return getResult(query);
     }
 
     public String makeAPICall(URIBuilder query)
