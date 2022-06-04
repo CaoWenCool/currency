@@ -35,4 +35,13 @@ public class CoinController {
         latestRequest.setConvert("USD");
         return ApiResult.ok(coinService.getListingLatest(latestRequest));
     }
+
+    @ApiOperation(
+            value = "根据地址获取ETH的数量",
+            notes = "根据地址获取ETH的数量"
+    )
+    @GetMapping(value = "/eth/number")
+    public ApiResult getEthNumber() {
+        return ApiResult.ok(coinService.getEthNumber());
+    }
 }

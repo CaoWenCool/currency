@@ -1,11 +1,11 @@
 package com.currency.qrcode.currency.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import com.currency.qrcode.currency.model.response.CoinPriceResponse;
-import org.apache.commons.lang3.StringUtils;
+import com.currency.qrcode.currency.model.response.EthAddressResponse;
+import com.currency.qrcode.currency.util.HttpsUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 @Service
 public class CoinService {
@@ -30,8 +31,27 @@ public class CoinService {
 
     @Value("${coinmarketcap.key:c27e5dce-7702-42b8-9f18-908234ee54c3}")
     public String apiKey;
+
+    @Value("${eth.address:0x82d30797cc1b191dcdebc6c2befe820ec8efe9cb}")
+    public String ethAddress;
+
     private static final String COINMARKETCAP_URL = "https://pro-api.coinmarketcap.com/v1";
     private static final String COINMARKETCAP_LISTING_LATEST_URL = COINMARKETCAP_URL + "/cryptocurrency/listings/latest";
+    private static final String TOKEN_VIEW_URL = "http://freeapi.tokenview.com:8088/addr/b/eth/";
+
+    public EthAddressResponse getEthNumber(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(TOKEN_VIEW_URL);
+        sb.append(ethAddress);
+        String result = HttpsUtils.get(sb.toString(),String.class);
+        logger.info("result " + result);
+        Map jsonMap = JSONObject.parseObject(result, Map.class);
+        BigDecimal data = BigDecimal.valueOf(Double.valueOf(String.valueOf(jsonMap.get("data"))));
+        EthAddressResponse ethAddressResponse = new EthAddressResponse();
+        ethAddressResponse.setAddress(ethAddress);
+        ethAddressResponse.setBalance(data.setScale(4, BigDecimal.ROUND_HALF_UP));
+        return ethAddressResponse;
+    }
 
     public CoinPriceResponse getListingLatest(ListingLatestRequest request) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_LISTING_LATEST_URL);
@@ -93,16 +113,12 @@ public class CoinService {
             query.setParameter("aux", request.getAux());
         }
         String coinResult = getResult(query);
-        logger.info("coinResult info:" + coinResult);
         JSONObject jsonObject = JSONObject.parseObject(coinResult, JSONObject.class);
-        logger.info("jsonObject info:" + jsonObject.toString());
         JSONArray jsonArray = jsonObject.getJSONArray("data");
-        logger.info("jsonArray info:" + jsonArray.toString());
         JSONObject btcJSON = (JSONObject) jsonArray.get(0);
         JSONObject quote = btcJSON.getJSONObject("quote");
         JSONObject usd  = quote.getJSONObject("USD");
         BigDecimal price = (BigDecimal) usd.get("price");
-        logger.info("price info:" + price.toString());
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
         coinPriceResponse.setPrice(price.setScale(4, BigDecimal.ROUND_HALF_UP));
         coinPriceResponse.setLowPrice(price.setScale(3, BigDecimal.ROUND_HALF_UP));
@@ -112,15 +128,14 @@ public class CoinService {
 
     private String getResult(URIBuilder query){
         try {
-            logger.info("request info:" + query.getQueryParams().toString());
             String result = makeAPICall(query);
             return result;
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error: cannont access content - " + e.toString());
+            logger.error("Error: cannont access content - " + e.toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            System.out.println("Error: Invalid URL " + e.toString());
+            logger.error("Error: Invalid URL " + e.toString());
         }
         return  null;
     }
