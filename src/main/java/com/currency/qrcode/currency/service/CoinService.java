@@ -104,9 +104,9 @@ public class CoinService {
         BigDecimal price = (BigDecimal) usd.get("price");
         logger.info("price info:" + price.toString());
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
-        coinPriceResponse.setPrice(price);
-        coinPriceResponse.setLowPrice(price);
-        coinPriceResponse.setHightPirce(price);
+        coinPriceResponse.setPrice(price.setScale(4, BigDecimal.ROUND_HALF_UP));
+        coinPriceResponse.setLowPrice(price.setScale(4, BigDecimal.ROUND_HALF_UP));
+        coinPriceResponse.setHightPirce(price.setScale(4, BigDecimal.ROUND_HALF_UP));
         return coinPriceResponse;
     }
 
