@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 
 @Validated
 @RequestMapping(value = "/coin", produces = "application/json")
-@Api(tags = "加密数字货币")
+@Api(tags = "货币的价格")
 @RestController
 public class CoinController {
 
