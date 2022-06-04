@@ -1,34 +1,37 @@
 package com.currency.qrcode.currency.model.response;
 
+import java.math.BigDecimal;
+
 public class CoinPriceResponse {
 
-    private Double price;
+    private BigDecimal price;
 
-    private Double hightPirce;
+    private BigDecimal hightPirce;
 
-    private Double lowPrice;
+    private BigDecimal lowPrice;
 
-    public Double getPrice() {
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Double getHightPirce() {
+    public BigDecimal getHightPirce() {
         return hightPirce;
     }
 
-    public void setHightPirce(Double hightPirce) {
+    public void setHightPirce(BigDecimal hightPirce) {
         this.hightPirce = hightPirce;
     }
 
-    public Double getLowPrice() {
+    public BigDecimal getLowPrice() {
         return lowPrice;
     }
 
-    public void setLowPrice(Double lowPrice) {
+    public void setLowPrice(BigDecimal lowPrice) {
         this.lowPrice = lowPrice;
     }
 }

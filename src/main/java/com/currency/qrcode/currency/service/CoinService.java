@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
 @Service
@@ -100,7 +101,7 @@ public class CoinService {
         JSONObject btcJSON = (JSONObject) jsonArray.get(0);
         JSONObject quote = btcJSON.getJSONObject("quote");
         JSONObject usd  = quote.getJSONObject("USD");
-        Double price = (Double) usd.get("price");
+        BigDecimal price = (BigDecimal) usd.get("price");
         logger.info("price info:" + price.toString());
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
         coinPriceResponse.setPrice(price);
