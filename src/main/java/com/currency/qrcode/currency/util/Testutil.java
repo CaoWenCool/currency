@@ -14,7 +14,11 @@ public class Testutil {
             strs = strs.replace("\\","");
             System.out.println(strs);
             JSONObject jsonObject = JSONObject.parseObject(strs, JSONObject.class);
-            System.out.println(jsonObject.get("data"));
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            JSONObject btcJSON = (JSONObject) jsonArray.get(0);
+            JSONObject quote = btcJSON.getJSONObject("quote");
+            JSONObject usd  = quote.getJSONObject("USD");
+            System.out.println(usd.get("price"));
         } catch (Exception e) {
             e.printStackTrace();
         }

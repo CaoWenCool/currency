@@ -1,6 +1,7 @@
 package com.currency.qrcode.currency.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import com.currency.qrcode.currency.model.response.CoinPriceResponse;
@@ -97,25 +98,12 @@ public class CoinService {
         }
         JSONObject jsonObject = JSONObject.parseObject(coinResult, JSONObject.class);
         logger.info("jsonObject info:" + jsonObject.toString());
-        Integer code = (Integer) jsonObject.get("code");
-        if(code != 200){
-            return null;
-        }
-        String jsonData = (String) jsonObject.get("data");
-        if(StringUtils.isEmpty(jsonData)){
-            return null;
-        }
-        jsonData = jsonData.replace("\\","");
-        logger.info("jsonData info:" + jsonData);
-        JSONObject dataJson = JSONObject.parseObject(jsonData, JSONObject.class);
-        JSONObject btcJsonObj = dataJson.getJSONObject("data");
-        logger.info("data info:" + btcJsonObj.toString());
-        JSONObject quoteJsonObj = btcJsonObj.getJSONObject("quote");
-        logger.info("quoteJsonObj info:" + quoteJsonObj.toString());
-        JSONObject usdJsonObj = quoteJsonObj.getJSONObject("USD");
-        logger.info("USD info:" + usdJsonObj.toString());
-        Double price = (Double) usdJsonObj.get("price");
-        logger.info("price info:" + price);
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        JSONObject btcJSON = (JSONObject) jsonArray.get(0);
+        JSONObject quote = btcJSON.getJSONObject("quote");
+        JSONObject usd  = quote.getJSONObject("USD");
+        Double price = (Double) usd.get("price");
+        System.out.println(usd.get("price"));
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
         coinPriceResponse.setPrice(price);
         coinPriceResponse.setLowPrice(price);
