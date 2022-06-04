@@ -14,6 +14,7 @@
     <script>
       var url = "http://8.218.81.14:8080"
       var activity_time_url = "/base/activity/time"
+      var btc_time_url ="/coin/BTC/price";
       $(document).ready(function (){
         $.ajax({
           url: url + activity_time_url,
@@ -25,6 +26,24 @@
             var activityTime = res["data"]
             console.log(activityTime)
             $(".txt4").html(activityTime)
+          },
+          error:function (xhr,errorMessage, e){
+            alert(errorMessage)
+          }
+        })
+
+        $.ajax({
+          url: url + btc_time_url,
+          type:'get',
+          dataType:'json',
+          success:function (res){
+            var json_res = JSON.stringify(res)
+            console.log(json_res)
+            var btcPrice = res["data"]
+            console.log(btcPrice)
+            $(".word5").html("BTC:" + btcPrice["price"])
+            $(".word6").html(btcPrice["hightPirce"])
+            $(".txt5").html(btcPrice["lowPrice"])
           },
           error:function (xhr,errorMessage, e){
             alert(errorMessage)

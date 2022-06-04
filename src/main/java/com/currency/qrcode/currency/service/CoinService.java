@@ -105,8 +105,8 @@ public class CoinService {
         logger.info("price info:" + price.toString());
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
         coinPriceResponse.setPrice(price.setScale(4, BigDecimal.ROUND_HALF_UP));
-        coinPriceResponse.setLowPrice(price.setScale(4, BigDecimal.ROUND_HALF_UP));
-        coinPriceResponse.setHightPirce(price.setScale(4, BigDecimal.ROUND_HALF_UP));
+        coinPriceResponse.setLowPrice(price.setScale(3, BigDecimal.ROUND_HALF_UP));
+        coinPriceResponse.setHightPirce(price.setScale(3, BigDecimal.ROUND_HALF_UP));
         return coinPriceResponse;
     }
 
