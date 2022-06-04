@@ -1,7 +1,6 @@
 package com.currency.qrcode.currency.controller;
 
 import com.currency.qrcode.currency.model.ApiResult;
-import com.currency.qrcode.currency.model.CurrencyEnum;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import com.currency.qrcode.currency.service.CoinmarketCapService;
 import com.currency.qrcode.currency.service.QrCodeService;
@@ -11,11 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 @Validated
 @RequestMapping(value = "/currency", produces = "application/json")
@@ -28,28 +23,6 @@ public class QrCodeController {
 
     @Autowired
     CoinmarketCapService coinmarketCapService;
-
-//    @ApiOperation(
-//            value = "二维码生成接口",
-//            notes = "生成不同加密数字货币的二维码"
-//    )
-//    @GetMapping(value = "/qrCode")
-//    public ApiResult generatorQrCode(
-//            @ApiParam("币种")
-//            @RequestParam CurrencyEnum currencyEnum,
-//
-//            @ApiParam("金额")
-//            @RequestParam
-//                    Double money,
-//
-//            @ApiParam("接收地址")
-//            @RequestParam
-//                    String requireAddress,
-//            HttpServletResponse response) throws Exception {
-//        qrCodeService.qrCodeGenerate(currencyEnum, money, requireAddress, response);
-//
-//        return null;
-//    }
 
     @ApiOperation(
             value = "请求获取货币的键值对信息",

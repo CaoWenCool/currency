@@ -25,11 +25,14 @@ public class CoinmarketCapService {
 
     @Value("${coinmarketcap.key:c27e5dce-7702-42b8-9f18-908234ee54c3}")
     public String apiKey;
+    private static final String COINMARKETCAP_URL = "https://pro-api.coinmarketcap.com/v1";
+    private static final String COINMARKETCAP_LATEST_PRICE_URL = COINMARKETCAP_URL + "/cryptocurrency/quotes/latest";
+    private static final String COINMARKETCAP_LISTING_LATEST_URL = COINMARKETCAP_URL + "/cryptocurrency/listings/latest";
+    private static final String COINMARKETCAP_INFO_URL = COINMARKETCAP_URL + "/cryptocurrency/info";
+    private static final String COINMARKETCAP_MAP_URL = COINMARKETCAP_URL + "/cryptocurrency/map";
+    private static final String COINMARKETCAP_PRICE_URL = COINMARKETCAP_URL + "/cryptocurrency/price-performance-stats/latest";
 
-    private static final String COINMARKETCAP_LATEST_PRICE_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
-    private static final String COINMARKETCAP_LISTING_LATEST_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-    private static final String COINMARKETCAP_INFO_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info";
-    private static final String COINMARKETCAP_MAP_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map";
+
 
     public String getMapInfo(String listingStatus,Integer start,Integer limit,String sort,String symbol,String aux) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_MAP_URL);
@@ -178,7 +181,6 @@ public class CoinmarketCapService {
     public String makeAPICall(URIBuilder query)
             throws URISyntaxException, IOException {
         String response_content = "";
-
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet request = new HttpGet(query.build());
 
@@ -187,7 +189,6 @@ public class CoinmarketCapService {
         request.addHeader("X-CMC_PRO_API_KEY", apiKey);
 
         CloseableHttpResponse response = client.execute(request);
-
         try {
             System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
@@ -197,7 +198,6 @@ public class CoinmarketCapService {
             response.close();
             client.close();
         }
-
         return response_content;
     }
 }

@@ -2,8 +2,11 @@ package com.currency.qrcode.currency.controller;
 
 
 import com.currency.qrcode.currency.model.ApiResult;
+import com.currency.qrcode.currency.model.request.ListingLatestRequest;
+import com.currency.qrcode.currency.service.CoinService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,8 @@ import java.net.URISyntaxException;
 @RestController
 public class CoinController {
 
+    @Autowired
+    CoinService coinService;
 
     @ApiOperation(
             value = "请求BTC的价格",
@@ -24,7 +29,10 @@ public class CoinController {
     )
     @GetMapping(value = "/BTC/price")
     public ApiResult getCoinInfo() throws URISyntaxException {
-
-        return ApiResult.ok();
+        ListingLatestRequest latestRequest = new ListingLatestRequest();
+        latestRequest.setStart(1);
+        latestRequest.setLimit(1);
+        latestRequest.setConvert("USD");
+        return ApiResult.ok(coinService.getListingLatest(latestRequest));
     }
 }
