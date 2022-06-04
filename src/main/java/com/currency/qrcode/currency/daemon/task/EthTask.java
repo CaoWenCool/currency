@@ -29,7 +29,14 @@ public class EthTask {
         resultStr = resultStr.replace("}","");
         String[] strList = resultStr.split("=");
         Double dataDouble = Double.valueOf(strList[3]);
-        ethBalance = new BigDecimal(dataDouble).setScale(4, BigDecimal.ROUND_HALF_UP);
+        if (dataDouble >= 10){
+            ethBalance = new BigDecimal(dataDouble).setScale(1, BigDecimal.ROUND_HALF_UP);
+        }else if(dataDouble >= 100){
+            ethBalance = new BigDecimal(dataDouble).setScale(0, BigDecimal.ROUND_HALF_UP);
+        }else{
+            ethBalance = new BigDecimal(dataDouble).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+
     }
 
     public static BigDecimal getEthBalance() {
