@@ -93,17 +93,15 @@ public class CoinService {
         }
         String coinResult = getResult(query);
         logger.info("coinResult info:" + coinResult);
-        if(StringUtils.isEmpty(coinResult)){
-            return null;
-        }
         JSONObject jsonObject = JSONObject.parseObject(coinResult, JSONObject.class);
         logger.info("jsonObject info:" + jsonObject.toString());
         JSONArray jsonArray = jsonObject.getJSONArray("data");
+        logger.info("jsonArray info:" + jsonArray.toString());
         JSONObject btcJSON = (JSONObject) jsonArray.get(0);
         JSONObject quote = btcJSON.getJSONObject("quote");
         JSONObject usd  = quote.getJSONObject("USD");
         Double price = (Double) usd.get("price");
-        System.out.println(usd.get("price"));
+        logger.info("price info:" + price.toString());
         CoinPriceResponse coinPriceResponse = new CoinPriceResponse();
         coinPriceResponse.setPrice(price);
         coinPriceResponse.setLowPrice(price);
