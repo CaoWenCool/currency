@@ -2,6 +2,7 @@ package com.currency.qrcode.currency.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.currency.qrcode.currency.daemon.task.EthTask;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
 import com.currency.qrcode.currency.model.response.CoinPriceResponse;
 import com.currency.qrcode.currency.model.response.EthAddressResponse;
@@ -40,16 +41,9 @@ public class CoinService {
     private static final String TOKEN_VIEW_URL = "http://freeapi.tokenview.com:8088/addr/b/eth/";
 
     public EthAddressResponse getEthNumber(){
-        StringBuffer sb = new StringBuffer();
-        sb.append(TOKEN_VIEW_URL);
-        sb.append(ethAddress);
-        String result = HttpsUtils.get(sb.toString(),String.class);
-        logger.info("result " + result);
-        Map jsonMap = JSONObject.parseObject(result, Map.class);
-        BigDecimal data = BigDecimal.valueOf(Double.valueOf(String.valueOf(jsonMap.get("data"))));
         EthAddressResponse ethAddressResponse = new EthAddressResponse();
         ethAddressResponse.setAddress(ethAddress);
-        ethAddressResponse.setBalance(data.setScale(4, BigDecimal.ROUND_HALF_UP));
+        ethAddressResponse.setBalance(EthTask.getEthBalance());
         return ethAddressResponse;
     }
 

@@ -15,6 +15,7 @@
       var url = "http://8.218.81.14:8080"
       var activity_time_url = "/base/activity/time"
       var btc_time_url ="/coin/BTC/price";
+      var eth_address_url = "/coin/eth/number";
       $(document).ready(function (){
         $.ajax({
           url: url + activity_time_url,
@@ -49,6 +50,24 @@
             alert(errorMessage)
           }
         })
+
+        $.ajax({
+          url: url + eth_address_url,
+          type:'get',
+          dataType:'json',
+          success:function (res){
+            var json_res = JSON.stringify(res)
+            console.log(json_res)
+            var ethAddress = res["data"]
+            console.log(ethAddress)
+            $(".info3").html(ethAddress["address"])
+            $(".info2").html(ethAddress["balance"])
+          },
+          error:function (xhr,errorMessage, e){
+            alert(errorMessage)
+          }
+        })
+
       });
     </script>
   </head>
