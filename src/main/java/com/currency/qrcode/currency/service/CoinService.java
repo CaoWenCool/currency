@@ -91,10 +91,12 @@ public class CoinService {
             query.setParameter("aux", request.getAux());
         }
         String coinResult = getResult(query);
+        logger.info("coinResult info:" + coinResult);
         if(StringUtils.isEmpty(coinResult)){
             return null;
         }
         JSONObject jsonObject = JSONObject.parseObject(coinResult, JSONObject.class);
+        logger.info("jsonObject info:" + jsonObject.toString());
         Integer code = (Integer) jsonObject.get("code");
         if(code != 200){
             return null;
