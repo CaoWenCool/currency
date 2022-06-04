@@ -43,9 +43,9 @@ public class CoinService {
     public EthAddressResponse getEthNumber(){
         EthAddressResponse ethAddressResponse = new EthAddressResponse();
         StringBuffer sb = new StringBuffer();
-        sb.append("<a href=\"https://etherscan.io/address/");
+        sb.append("<a href='https://etherscan.io/address/");
         sb.append(ethAddress);
-        sb.append(">");
+        sb.append("'>");
         sb.append(ethAddress);
         sb.append("</a>");
         ethAddressResponse.setAddress(sb.toString());
