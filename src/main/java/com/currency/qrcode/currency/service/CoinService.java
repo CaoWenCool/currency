@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.currency.qrcode.currency.daemon.task.BtcTask;
 import com.currency.qrcode.currency.daemon.task.EthTask;
 import com.currency.qrcode.currency.model.request.ListingLatestRequest;
+import com.currency.qrcode.currency.model.response.AwardInfoResponse;
 import com.currency.qrcode.currency.model.response.CoinPriceResponse;
 import com.currency.qrcode.currency.model.response.EthAddressResponse;
 import com.currency.qrcode.currency.util.HttpsUtils;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,6 +36,14 @@ public class CoinService {
 
     @Value("${eth.address:0x82d30797cc1b191dcdebc6c2befe820ec8efe9cb}")
     public String ethAddress;
+
+    public AwardInfoResponse getAwardInfoResponse(){
+        AwardInfoResponse awardInfoResponse = new AwardInfoResponse();
+        awardInfoResponse.setPrice(BtcTask.getPriceOpeasenPO());
+        awardInfoResponse.setHighPrice(BtcTask.getHighPriceOpeasonPO());
+        awardInfoResponse.setLowPrice(BtcTask.getLowPriceOpeasonPO());
+        return awardInfoResponse;
+    }
 
     public EthAddressResponse getEthNumber(){
         EthAddressResponse ethAddressResponse = new EthAddressResponse();

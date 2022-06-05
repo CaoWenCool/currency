@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.currency.qrcode.currency.mapper.opensea.mapper.OpeasenMapper;
 import com.currency.qrcode.currency.mapper.opensea.model.OpeasenPO;
 import com.currency.qrcode.currency.model.OpeasenAttributeEnum;
+import com.currency.qrcode.currency.model.request.ListRequest;
 import com.currency.qrcode.currency.util.JsonConvertUtil;
 import com.currency.qrcode.currency.util.TimeUtils;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.List;
 
 @Service
 public class OpeasenService {
@@ -25,13 +28,23 @@ public class OpeasenService {
     @Autowired
     OpeasenMapper opeasenMapper;
 
+
+    public Integer countOpeasen(ListRequest listRequest){
+        return opeasenMapper.countOpeasen(listRequest);
+    }
+
+    public List<OpeasenPO> listByPage(ListRequest listRequest){
+        PageHelper.startPage(listRequest.getPageNo(), listRequest.getPageSize());
+        List<OpeasenPO> result = opeasenMapper.listByPage(listRequest);
+        return result;
+    }
+
     public void insert(OpeasenPO opeasenPO){
         opeasenMapper.insert(opeasenPO);
     }
 
     public void init(){
         File file = new File(localPath);
-        logger.info("request info:" +localPath);
         String[] fileList = file.list();
         StringBuffer sb = new StringBuffer();
         sb.append(TimeUtils.getMonthOfFirstDay());
