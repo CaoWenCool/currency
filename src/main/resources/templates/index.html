@@ -71,9 +71,24 @@
           success:function (res){
             var awardInfo = res["data"]
             console.log(awardInfo)
-            $(".txt7").html("Token&nbsp;ID:" + awardInfo["price"]["imageName"])
-            $(".txt8").html("Token&nbsp;ID:" + awardInfo["highPrice"]["imageName"])
-            $(".info4").html("Token&nbsp;ID:" + awardInfo["lowPrice"]["imageName"])
+            var lowName = awardInfo["lowPrice"]["imageName"];
+            var highName = awardInfo["highPrice"]["imageName"];
+            var name = awardInfo["price"]["imageName"]
+            $(".txt7").html("Token&nbsp;ID:" + name)
+            $(".txt8").html("Token&nbsp;ID:" + highName)
+            $(".info4").html("Token&nbsp;ID:" + lowName)
+            $(".main3").click(function (){
+              var lowUrl = "https://testnets.opensea.io/assets/mumbai/0xe18b833a6f987cd48ad95e6003d1b557d741166e/" + lowName.replace("#","");
+              window.open(lowUrl);
+            });
+            $(".section11").click(function (){
+              var lowUrl = "https://testnets.opensea.io/assets/mumbai/0xe18b833a6f987cd48ad95e6003d1b557d741166e/" + name.replace("#","");
+              window.open(lowUrl);
+            });
+            $(".layer16").click(function (){
+              var lowUrl = "https://testnets.opensea.io/assets/mumbai/0xe18b833a6f987cd48ad95e6003d1b557d741166e/" + highName.replace("#","");
+              window.open(lowUrl);
+            });
           },
           error:function (xhr,errorMessage, e){
             alert(errorMessage)
