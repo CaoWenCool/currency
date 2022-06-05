@@ -43,7 +43,7 @@ public class OpeasenService {
                 continue;
             }
             logger.info("fileList[i] info:" +fileList[i]);
-            String filePath = localPath + "\\" + fileList[i];
+            String filePath = localPath + "/" + fileList[i];
             String eachFileContent = readEachFile(filePath);
             logger.info("eachFileContent info:" +eachFileContent);
             JSONObject jsonObject = JsonConvertUtil.fromJSON(eachFileContent, JSONObject.class);
