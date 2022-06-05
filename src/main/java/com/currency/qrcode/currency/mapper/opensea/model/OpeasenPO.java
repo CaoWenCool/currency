@@ -43,14 +43,6 @@ public class OpeasenPO {
         this.imageName = imageName;
     }
 
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -122,5 +114,29 @@ public class OpeasenPO {
         this.taskId = taskId;
     }
 
+    public String getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    @Override
+    public String toString() {
+        return "OpeasenPO{" +
+                "id=" + id +
+                ", imageName='" + imageName + '\'' +
+                ", description='" + description + '\'' +
+                ", edition=" + edition +
+                ", createDate='" + createDate + '\'' +
+                ", price=" + price +
+                ", highPrice=" + highPrice +
+                ", lowPrice=" + lowPrice +
+                ", color='" + color + '\'' +
+                ", complier='" + complier + '\'' +
+                ", image='" + image + '\'' +
+                ", taskId='" + taskId + '\'' +
+                '}';
+    }
 }

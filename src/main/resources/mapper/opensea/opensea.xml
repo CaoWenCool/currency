@@ -49,7 +49,7 @@
         #{imageName},
         #{description},
         #{edition},
-        #{create_date},
+        #{createDate},
         #{price},
         #{highPrice},
         #{lowPrice},
