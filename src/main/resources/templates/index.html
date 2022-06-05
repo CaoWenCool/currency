@@ -71,7 +71,7 @@
             var awardInfo = res["data"]
             console.log(awardInfo)
             $(".txt7").html("Token&nbsp;ID:" + awardInfo["price"]["imageName"])
-            $(".word11").html("Token&nbsp;ID:" + awardInfo["highPrice"]["imageName"])
+            $(".txt8").html("Token&nbsp;ID:" + awardInfo["highPrice"]["imageName"])
             $(".info4").html("Token&nbsp;ID:" + awardInfo["lowPrice"]["imageName"])
           },
           error:function (xhr,errorMessage, e){
