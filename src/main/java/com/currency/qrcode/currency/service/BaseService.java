@@ -13,7 +13,7 @@ public class BaseService {
     private String openseaUrl;
 
 
-    public ActivityTimeResponse getActivityTime(){
+    public ActivityTimeResponse getActivityInfo(){
         // 获取当前时间
         ActivityTimeResponse activityTimeResponse = new ActivityTimeResponse();
         StringBuffer sb = new StringBuffer();

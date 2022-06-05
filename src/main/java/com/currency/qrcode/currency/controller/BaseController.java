@@ -21,12 +21,12 @@ public class BaseController {
 
 
     @ApiOperation(
-            value = "请求BTC的价格",
-            notes = "请求BTC的价格"
+            value = "获取活动基础信息",
+            notes = "获取活动基础信息"
     )
     @GetMapping(value = "/info")
     public ApiResult getActivityTime() {
-        return ApiResult.ok(baseService.getActivityTime());
+        return ApiResult.ok(baseService.getActivityInfo());
     }
 
 
