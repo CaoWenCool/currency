@@ -2,23 +2,26 @@ package com.currency.qrcode.currency.model.response;
 
 public class ActivityTimeResponse {
 
-    private String startDay;
 
-    private String endDay;
+    private String activityTime;
 
-    public String getStartDay() {
-        return startDay;
+    private String openseaUrl;
+
+    public String getActivityTime() {
+        return activityTime;
     }
 
-    public void setStartDay(String startDay) {
-        this.startDay = startDay;
+    public void setActivityTime(String activityTime) {
+        this.activityTime = activityTime;
     }
 
-    public String getEndDay() {
-        return endDay;
+    public String getOpenseaUrl() {
+        return openseaUrl;
     }
 
-    public void setEndDay(String endDay) {
-        this.endDay = endDay;
+    public void setOpenseaUrl(String openseaUrl) {
+        this.openseaUrl = openseaUrl;
     }
+
+
 }

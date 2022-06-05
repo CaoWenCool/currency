@@ -24,7 +24,7 @@ public class BaseController {
             value = "请求BTC的价格",
             notes = "请求BTC的价格"
     )
-    @GetMapping(value = "/activity/time")
+    @GetMapping(value = "/info")
     public ApiResult getActivityTime() {
         return ApiResult.ok(baseService.getActivityTime());
     }

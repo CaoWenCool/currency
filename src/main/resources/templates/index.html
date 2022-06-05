@@ -12,20 +12,21 @@
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/index.rem.css}" />
     <script>
       var url = "http://8.218.81.14:8080"
-      var activity_time_url = "/base/activity/time"
-      var btc_time_url ="/coin/BTC/price";
-      var eth_address_url = "/coin/eth/number";
+      var baseInfo = "/base/info"
+      var btcPriceUrl ="/coin/BTC/price";
+      var ethAddressUrl = "/coin/eth/number";
       $(document).ready(function (){
         $.ajax({
-          url: url + activity_time_url,
+          url: url + baseInfo,
           type:'get',
           dataType:'json',
           success:function (res){
-            var json_res = JSON.stringify(res)
-            console.log(json_res)
-            var activityTime = res["data"]
-            console.log(activityTime)
-            $(".txt4").html(activityTime)
+            var baseInfo = res["data"]
+            console.log(baseInfo)
+            $(".txt4").html(baseInfo["activityTime"])
+            $(".bd8").click(function (){
+              window.location.href = baseInfo["openseaUrl"];
+            });
           },
           error:function (xhr,errorMessage, e){
             alert(errorMessage)
@@ -33,7 +34,7 @@
         })
 
         $.ajax({
-          url: url + btc_time_url,
+          url: url + btcPriceUrl,
           type:'get',
           dataType:'json',
           success:function (res){
@@ -51,7 +52,7 @@
         })
 
         $.ajax({
-          url: url + eth_address_url,
+          url: url + ethAddressUrl,
           type:'get',
           dataType:'json',
           success:function (res){
