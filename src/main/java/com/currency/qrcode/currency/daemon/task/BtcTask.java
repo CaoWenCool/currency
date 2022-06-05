@@ -90,11 +90,11 @@ public class BtcTask {
             setDifferLowPrice(differValue);
             return;
         }
-        if(differValue < getDifferHighPrice()){
+        if(differValue < getDifferLowPrice()){
             setLowPriceOpeasonPO(opeasenPO);
             setDifferLowPrice(differValue);
-        }else if(differValue == getDifferPrice()){
-            if(opeasenPO.getLowPrice() > getPriceOpeasenPO().getLowPrice()){
+        }else if(differValue == getDifferLowPrice()){
+            if(opeasenPO.getLowPrice() > getLowPriceOpeasonPO().getLowPrice()){
                 setLowPriceOpeasonPO(opeasenPO);
                 setDifferLowPrice(differValue);
             }
@@ -111,8 +111,8 @@ public class BtcTask {
         if(differValue < getDifferHighPrice()){
             setHighPriceOpeasonPO(opeasenPO);
             setDifferHighPrice(differValue);
-        }else if(differValue == getDifferPrice()){
-            if(opeasenPO.getHighPrice() > getPriceOpeasenPO().getHighPrice()){
+        }else if(differValue == getDifferHighPrice()){
+            if(opeasenPO.getHighPrice() > getHighPriceOpeasonPO().getHighPrice()){
                 setHighPriceOpeasonPO(opeasenPO);
                 setDifferHighPrice(differValue);
             }
