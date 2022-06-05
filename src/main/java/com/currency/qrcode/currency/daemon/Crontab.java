@@ -31,7 +31,7 @@ public class Crontab {
     /**
      * 1秒钟检查一次
      */
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000 * 60 * 20)
     public void getBtcPriceInfo() throws URISyntaxException {
         btcTask.updateBtcPriceInfo();
     }
