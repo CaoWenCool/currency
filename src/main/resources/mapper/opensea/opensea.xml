@@ -36,6 +36,7 @@
     </sql>
 
     <sql id="Base_Column_List">
+        id,
         image_name,
         description,
         edition,

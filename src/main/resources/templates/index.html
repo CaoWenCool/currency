@@ -15,14 +15,13 @@
       var baseInfo = "/base/info"
       var btcPriceUrl ="/coin/BTC/price";
       var ethAddressUrl = "/coin/eth/number";
+      var awardInfoUrl = "/coin/award";
       $(document).ready(function (){
         $.ajax({
           url: url + baseInfo,
           type:'get',
           dataType:'json',
           success:function (res){
-            var baseInfo = res["data"]
-            console.log(baseInfo)
             $(".txt4").html(baseInfo["activityTime"])
             $(".bd8").click(function (){
               window.open(baseInfo["openseaUrl"]);
@@ -38,8 +37,6 @@
           type:'get',
           dataType:'json',
           success:function (res){
-            var json_res = JSON.stringify(res)
-            console.log(json_res)
             var btcPrice = res["data"]
             console.log(btcPrice)
             $(".word5").html("BTC:" + btcPrice["price"])
@@ -56,12 +53,26 @@
           type:'get',
           dataType:'json',
           success:function (res){
-            var json_res = JSON.stringify(res)
-            console.log(json_res)
             var ethAddress = res["data"]
             console.log(ethAddress)
             $(".info3").html(ethAddress["address"])
             $(".info2").html(ethAddress["balance"])
+          },
+          error:function (xhr,errorMessage, e){
+            alert(errorMessage)
+          }
+        })
+
+        $.ajax({
+          url: url + awardInfoUrl,
+          type:'get',
+          dataType:'json',
+          success:function (res){
+            var awardInfo = res["data"]
+            console.log(ethAddress)
+            $(".txt7").html("Token&nbsp;ID:" + awardInfo["price"]["imageName"])
+            $(".word11").html("Token&nbsp;ID:" + awardInfo["highPrice"]["imageName"])
+            $(".info4").html("Token&nbsp;ID:" + awardInfo["lowPrice"]["imageName"])
           },
           error:function (xhr,errorMessage, e){
             alert(errorMessage)
