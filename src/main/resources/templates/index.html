@@ -22,9 +22,10 @@
           type:'get',
           dataType:'json',
           success:function (res){
-            $(".txt4").html(baseInfo["activityTime"])
+            var baseRes = res["data"];
+            $(".txt4").html(baseRes["activityTime"])
             $(".bd8").click(function (){
-              window.open(baseInfo["openseaUrl"]);
+              window.open(baseRes["openseaUrl"]);
             });
           },
           error:function (xhr,errorMessage, e){
