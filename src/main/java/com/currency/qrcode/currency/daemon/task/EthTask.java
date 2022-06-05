@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 
 @Service
@@ -17,6 +18,13 @@ public class EthTask {
     public String ethAddress;
     private static final String TOKEN_VIEW_URL = "http://freeapi.tokenview.com:8088/addr/b/eth/";
     public static BigDecimal ethBalance;
+
+    @PostConstruct
+    public void init(){
+        logger.info("ethTask init start");
+        this.updateEthAddressBalance();
+        logger.info("ethTask init end");
+    }
 
     @Async("asyncTaskExecutor")
     public void updateEthAddressBalance(){
