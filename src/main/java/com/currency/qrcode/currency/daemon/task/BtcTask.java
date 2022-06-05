@@ -70,6 +70,7 @@ public class BtcTask {
         }else{
             pageNumberTotal = countOpeasen / pageSize + 1;
         }
+        logger.info("pageNumberTotal end:" + pageNumberTotal);
         for (int i=1;i<=pageNumberTotal; i++){
             ListRequest eachPageRequest = new ListRequest("asc", "id", i, pageSize);
             List<OpeasenPO> opeasenPOList = opeasenService.listByPage(eachPageRequest);
@@ -134,12 +135,6 @@ public class BtcTask {
                 setDifferPrice(differValue);
             }
         }
-    }
-
-    public List<OpeasenPO> getOpeasenList(Integer pageNum){
-        ListRequest listRequest = new ListRequest("aes", "id", pageNum, 10);
-        List<OpeasenPO> opeasenPoList = opeasenService.listByPage(listRequest);
-        return  opeasenPoList;
     }
 
     public void getListingLatest(ListingLatestRequest request) throws URISyntaxException {
