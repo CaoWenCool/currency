@@ -25,7 +25,7 @@
             console.log(baseInfo)
             $(".txt4").html(baseInfo["activityTime"])
             $(".bd8").click(function (){
-              window.location.href = baseInfo["openseaUrl"];
+              window.open(baseInfo["openseaUrl"]);
             });
           },
           error:function (xhr,errorMessage, e){
