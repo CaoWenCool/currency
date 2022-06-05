@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling
-@EnableAsync
-@SpringBootApplication
 @Slf4j
+@EnableScheduling
+@SpringBootApplication
+@EnableAsync
 @MapperScan({"com.currency.qrcode.currency.mapper.*.mapper"})
 public class CurrencyApplication {
 

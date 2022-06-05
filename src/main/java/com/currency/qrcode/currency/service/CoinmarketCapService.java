@@ -32,8 +32,6 @@ public class CoinmarketCapService {
     private static final String COINMARKETCAP_MAP_URL = COINMARKETCAP_URL + "/cryptocurrency/map";
     private static final String COINMARKETCAP_PRICE_URL = COINMARKETCAP_URL + "/cryptocurrency/price-performance-stats/latest";
 
-
-
     public String getMapInfo(String listingStatus,Integer start,Integer limit,String sort,String symbol,String aux) throws URISyntaxException {
         URIBuilder query = new URIBuilder(COINMARKETCAP_MAP_URL);
         if(StringUtils.isNotEmpty(listingStatus)){
