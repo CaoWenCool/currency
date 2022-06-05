@@ -59,7 +59,7 @@ public class BtcTask {
         // 计算最优的价格
         Integer pageNo = 1;
         Integer pageSize = 10;
-        ListRequest listRequest = new ListRequest("aes", "id", pageNo, pageSize);
+        ListRequest listRequest = new ListRequest("asc", "id", pageNo, pageSize);
         Integer countOpeasen = opeasenService.countOpeasen(listRequest);
         if (countOpeasen <= 0){
             return;
@@ -71,7 +71,7 @@ public class BtcTask {
             pageNumberTotal = countOpeasen / pageSize + 1;
         }
         for (int i=1;i<=pageNumberTotal; i++){
-            ListRequest eachPageRequest = new ListRequest("aes", "id", i, pageSize);
+            ListRequest eachPageRequest = new ListRequest("asc", "id", i, pageSize);
             List<OpeasenPO> opeasenPOList = opeasenService.listByPage(eachPageRequest);
             for(OpeasenPO opeasenPO:opeasenPOList){
                 setOptimalPrice(opeasenPO);
